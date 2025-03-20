@@ -1,0 +1,70 @@
+# Unity Cache Folders (캐시 파일, 빌드 후 자동 생성되므로 Git에 포함 X)
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# MemoryCaptures can get excessive in size.
+# They also could contain extremely sensitive data
+[Mm]emoryCaptures/
+
+# Recordings can get excessive in size
+[Rr]ecordings/
+
+# Unity 패키지 캐시 (Git에 포함할 필요 없음)
+Packages/*
+!Packages/manifest.json
+
+# Unity Asset Store tools (선택적으로 포함)
+# /Assets/AssetStoreTools*
+
+# Jetbrains Rider Plugin (자동 생성됨)
+Assets/Plugins/Editor/JetBrains*
+
+# Visual Studio 관련 캐시 파일
+.vs/
+.gradle/
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# Builds (완성된 빌드 파일, Git에 올릴 필요 없음)
+*.apk
+*.aab
+*.unitypackage
+*.unitypackage.meta
+*.app
+
+# Crashlytics generated file
+crashlytics-build.properties
+
+# Packed Addressables
+Assets/AddressableAssetsData/*/*.bin*
+
+# Android StreamingAssets 임시 파일
+Assets/StreamingAssets/aa.meta
+Assets/StreamingAssets/aa/*
