@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "196405602040",
+    "project_id": "canon-wars-41ce5",
+    "storage_bucket": "canon-wars-41ce5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196405602040:android:e43851395b7acd88b5bd0d",
+        "android_client_info": {
+          "package_name": "com.mananan.CanonWars"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9lO_EkJl9mdnBemww5ClcONcmHw7vOe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
