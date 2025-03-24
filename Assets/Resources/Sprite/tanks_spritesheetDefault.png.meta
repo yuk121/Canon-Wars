@@ -354,6 +354,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -2284,7 +2297,94 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      tanks_spritesheetDefault_0: -1521985968212539580
+      tanks_spritesheetDefault_1: 949540254660156735
+      tanks_spritesheetDefault_10: -5500500120764922994
+      tanks_spritesheetDefault_11: 3009759021191781031
+      tanks_spritesheetDefault_12: 4770480575720617847
+      tanks_spritesheetDefault_13: 7805469151435181279
+      tanks_spritesheetDefault_14: 2985504087371661968
+      tanks_spritesheetDefault_15: -3995694922602817212
+      tanks_spritesheetDefault_16: 5166550576110750634
+      tanks_spritesheetDefault_17: 8766984624099971455
+      tanks_spritesheetDefault_18: -7608412580774455361
+      tanks_spritesheetDefault_19: 3464690018353413503
+      tanks_spritesheetDefault_2: -2044679405507392079
+      tanks_spritesheetDefault_20: 1278394304556741421
+      tanks_spritesheetDefault_21: 3809767490874647045
+      tanks_spritesheetDefault_22: 849208976839394949
+      tanks_spritesheetDefault_23: 8411537821742307842
+      tanks_spritesheetDefault_24: 9167779195074411202
+      tanks_spritesheetDefault_25: -554140525140292038
+      tanks_spritesheetDefault_26: 7874928716834227879
+      tanks_spritesheetDefault_27: -6726601752749181520
+      tanks_spritesheetDefault_28: 2727925488894228916
+      tanks_spritesheetDefault_29: 853044492611496859
+      tanks_spritesheetDefault_3: -3716597637877915894
+      tanks_spritesheetDefault_30: -6679026954237049479
+      tanks_spritesheetDefault_31: -302119053949737461
+      tanks_spritesheetDefault_32: -9205506098041579876
+      tanks_spritesheetDefault_33: -1021087545715248366
+      tanks_spritesheetDefault_34: -8923719354408580731
+      tanks_spritesheetDefault_35: 2516588075423189940
+      tanks_spritesheetDefault_36: -11280788677203101
+      tanks_spritesheetDefault_37: -4556880581628489331
+      tanks_spritesheetDefault_38: -5768744643598621583
+      tanks_spritesheetDefault_39: -7316724571054353777
+      tanks_spritesheetDefault_4: 6969956122974272501
+      tanks_spritesheetDefault_40: -7784502721020982442
+      tanks_spritesheetDefault_41: 839241116070378384
+      tanks_spritesheetDefault_42: -1861697809867218833
+      tanks_spritesheetDefault_43: -1482410243432392480
+      tanks_spritesheetDefault_44: 2337647175249541095
+      tanks_spritesheetDefault_45: 8944975871842886704
+      tanks_spritesheetDefault_46: 754035404550688872
+      tanks_spritesheetDefault_47: -8059731565770299256
+      tanks_spritesheetDefault_48: -4661544211054356394
+      tanks_spritesheetDefault_49: 8125283087484523542
+      tanks_spritesheetDefault_5: -2284971780706493476
+      tanks_spritesheetDefault_50: -5198031711898316333
+      tanks_spritesheetDefault_51: 7286346792445042531
+      tanks_spritesheetDefault_52: -7493726738474156999
+      tanks_spritesheetDefault_53: -1215691829836763551
+      tanks_spritesheetDefault_54: 8434082154896424250
+      tanks_spritesheetDefault_55: 508976159778570785
+      tanks_spritesheetDefault_56: -4558518707351565005
+      tanks_spritesheetDefault_57: -4048746477948397860
+      tanks_spritesheetDefault_58: 6682767750589598513
+      tanks_spritesheetDefault_59: 1261402399848032497
+      tanks_spritesheetDefault_6: 6577545753914416985
+      tanks_spritesheetDefault_60: 2400837359360407519
+      tanks_spritesheetDefault_61: 7844903120967925964
+      tanks_spritesheetDefault_62: 2660725568680051597
+      tanks_spritesheetDefault_63: 3503891912295755101
+      tanks_spritesheetDefault_64: 3565367929695900644
+      tanks_spritesheetDefault_65: -7430984252916852828
+      tanks_spritesheetDefault_66: -605558703118237522
+      tanks_spritesheetDefault_67: 2320615660108424198
+      tanks_spritesheetDefault_68: 6651355480314229951
+      tanks_spritesheetDefault_69: 5413416212250163605
+      tanks_spritesheetDefault_7: 5161849872395544658
+      tanks_spritesheetDefault_70: -8099281546626935424
+      tanks_spritesheetDefault_71: 7537031066866382476
+      tanks_spritesheetDefault_72: 5044444984549929981
+      tanks_spritesheetDefault_73: -4315122233561715252
+      tanks_spritesheetDefault_74: -6224010137909128836
+      tanks_spritesheetDefault_75: -388357896552159355
+      tanks_spritesheetDefault_76: 5999351407953087528
+      tanks_spritesheetDefault_77: 8674787598491466044
+      tanks_spritesheetDefault_78: 3936041809441864529
+      tanks_spritesheetDefault_79: 4726200969390197564
+      tanks_spritesheetDefault_8: -7743003596576029201
+      tanks_spritesheetDefault_80: 6182051525663278162
+      tanks_spritesheetDefault_81: -135195172518963587
+      tanks_spritesheetDefault_82: -5577716285572381279
+      tanks_spritesheetDefault_83: -7764223655245105983
+      tanks_spritesheetDefault_84: 4125273575021531130
+      tanks_spritesheetDefault_85: 1285063187403006549
+      tanks_spritesheetDefault_86: -5352404158801089581
+      tanks_spritesheetDefault_9: 3053744306242807624
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
