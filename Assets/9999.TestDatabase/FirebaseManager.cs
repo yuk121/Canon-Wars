@@ -31,6 +31,7 @@ public class FirebaseManager : MonoBehaviour
     [Space(10)]
     public InputField if_testID; //테스트용 inputField
     public InputField if_testPW; //테스트용 inputField
+    public InputField if_testNickName;
 
     [Space(10)]
     public UnityEvent loginCallback;
@@ -63,16 +64,17 @@ public class FirebaseManager : MonoBehaviour
     //계정 생성 버튼
     public void Create_UserAccount()
     {
-        Create_UserAccount(if_testID.text, if_testPW.text);
+        Create_UserAccount(if_testID.text, if_testPW.text, if_testNickName.text);
     }
 
     //계정 생성 기능
-    void Create_UserAccount(string a_UserID, string a_UserPW)
+    void Create_UserAccount(string a_UserID, string a_UserPW, string a_UserNickName)
     {
 
         UserData userData = new UserData();
         userData.UserID = a_UserID;
         userData.UserPW = a_UserPW;
+        userData.NickName= a_UserNickName;
         userData.UID = DateTime.Now.ToString("yyyyMMddHHmmss");
 
         ///---- User 테이블에 user 정보 저장.
@@ -259,18 +261,24 @@ public class FirebaseManager : MonoBehaviour
     //비밀번호 찾기 버튼
     public void SearchPW_Function()
     {
-        Get_UserPW(if_testID.text, delegate { Debug.Log(userVO.UserPW); });
+        Get_UserPW(delegate { Debug.Log(userVO.UserPW); });
     }
 
     //비밀번호 찾기 기능
-    async void Get_UserPW(string a_UserID, Action callback)
+    async void Get_UserPW(Action callback)
     {
+        if (userVO == null)
+            return;
+
+        if (userVO.UserID == string.Empty)
+            return;
+
         //USER SEAT에서 유저 정보 찾기.
         {
             UserData tempUserData = new UserData();
             string path = "UserDataSeat";
 
-            await token.Child(path).OrderByKey().EqualTo(a_UserID).GetValueAsync().ContinueWith(task =>
+            await token.Child(path).OrderByKey().EqualTo(userVO.UserID).GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -278,7 +286,7 @@ public class FirebaseManager : MonoBehaviour
 
                     if (snapshot.Exists)
                     {
-                        string value = snapshot.Child(a_UserID).GetRawJsonValue();
+                        string value = snapshot.Child(userVO.UserID).GetRawJsonValue();
 
                         if (value == null)
                         {
@@ -304,18 +312,24 @@ public class FirebaseManager : MonoBehaviour
     //비밀번호 변경 버튼
     public void UpdatePW_Function()
     {
-        Update_UserPW(if_testID.text, if_testPW.text, delegate { Debug.Log(userVO.UserPW); });
+        Update_UserPW(if_testPW.text, delegate { Debug.Log(userVO.UserPW); });
     }
     
     //비밀번호 변경 기능
-    async void Update_UserPW(string a_UserID, string a_newUserPW, Action callback)
+    async void Update_UserPW(string a_newUserPW, Action callback)
     {
+        if (userVO == null)
+            return;
+
+        if (userVO.UserID == string.Empty)
+            return;
+
         //USER SEAT에서 유저 정보 찾기.
         {
             UserData tempUserData = new UserData();
             string path = "UserDataSeat";
 
-            await token.Child(path).OrderByKey().EqualTo(a_UserID).GetValueAsync().ContinueWith(task =>
+            await token.Child(path).OrderByKey().EqualTo(userVO.UserID).GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -323,7 +337,7 @@ public class FirebaseManager : MonoBehaviour
 
                     if (snapshot.Exists)
                     {
-                        string value = snapshot.Child(a_UserID).GetRawJsonValue();
+                        string value = snapshot.Child(userVO.UserID).GetRawJsonValue();
 
                         if (value == null)
                         {
@@ -366,7 +380,7 @@ public class FirebaseManager : MonoBehaviour
 
 
     //유저 정보- Cannon List 를 Database에 저장.
-    void Update_UserCannon()
+    public void Update_UserCannon()
     {
         {
             string cannonTable_path = "UserCannonSeat/" + userVO.UID;
@@ -439,11 +453,7 @@ public class FirebaseManager : MonoBehaviour
     }
 
 
-
-
-
-//--------------------------임시 test용 기능
-public void addCannonnKeys(string value)
+    public void addCannonnKeys(string value)
     {
         userVO.CannonInfos.CannonKeys.Add(value);
     }
@@ -468,6 +478,7 @@ public void addCannonnKeys(string value)
 
 
 // UserBattleInfo 배열을 래핑할 클래스
+// DB Seat 내에 데이터가 null 상태로 초기화할 수 없기 때문에 객체를 하나 추가하여서 초기화용으로 사용되는 class.
 [System.Serializable]
 public class Wrapper
 {
