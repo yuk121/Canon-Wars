@@ -29,15 +29,12 @@ public class FirebaseManager : MonoBehaviour
     public ERROR_State eState;
 
     [Space(10)]
-    public InputField if_testID; //테스트용 inputField
-    public InputField if_testPW; //테스트용 inputField
-    public InputField if_testNickName;
-
-    [Space(10)]
     public UnityEvent loginCallback;
 
     async void Start()
     {
+        DontDestroyOnLoad(this);
+
         await InitializeFirebase();
     }
 
@@ -52,23 +49,16 @@ public class FirebaseManager : MonoBehaviour
             string databaseUrl = "https://canon-wars-41ce5-default-rtdb.firebaseio.com/";
             token = FirebaseDatabase.GetInstance(app, databaseUrl).RootReference;
 
-            Debug.Log("🔥 Firebase Initialized Successfully!");
+            Debug.Log("Firebase Initialized Successfully!");
         }
         else
         {
-            Debug.LogError($"❌ Firebase Initialization Failed: {dependencyStatus}");
+            Debug.LogError($"Firebase Initialization Failed: {dependencyStatus}");
         }
     }
 
-
-    //계정 생성 버튼
-    public void Create_UserAccount()
-    {
-        Create_UserAccount(if_testID.text, if_testPW.text, if_testNickName.text);
-    }
-
     //계정 생성 기능
-    void Create_UserAccount(string a_UserID, string a_UserPW, string a_UserNickName)
+    public void Create_UserAccount(string a_UserID, string a_UserPW, string a_UserNickName)
     {
 
         UserData userData = new UserData();
@@ -153,14 +143,8 @@ public class FirebaseManager : MonoBehaviour
 
     }
 
-    //로그인 버튼
-    public void Login_Function()
-    {
-        Login(if_testID.text, if_testPW.text, delegate { loginCallback.Invoke();  });
-    }
-
     //로그인 기능
-    async void Login(string a_UserID, string a_UserPW, Action callback)
+    public async void Login(string a_UserID, string a_UserPW, Action error_callback, Action success_callback)
     {
         //USER SEAT에서 유저 정보 찾기.
         {
@@ -180,6 +164,7 @@ public class FirebaseManager : MonoBehaviour
                         if (value == null)
                         {
                             eState = ERROR_State.DonSearch_ID; //ID 없음.
+                            error_callback.Invoke();
                             return;
                         }
 
@@ -193,6 +178,7 @@ public class FirebaseManager : MonoBehaviour
             if (tempUserData.UserPW != a_UserPW)
             {
                 eState = ERROR_State.DonSearch_PW; //PW 불일치.
+                error_callback.Invoke();
                 return;
             }
 
@@ -253,32 +239,20 @@ public class FirebaseManager : MonoBehaviour
         }
 
         eState = ERROR_State.NONE;
-        if(callback != null)
-            callback.Invoke();
+        if(success_callback != null)
+            success_callback.Invoke();
     }
 
-
-    //비밀번호 찾기 버튼
-    public void SearchPW_Function()
-    {
-        Get_UserPW(delegate { Debug.Log(userVO.UserPW); });
-    }
 
     //비밀번호 찾기 기능
-    async void Get_UserPW(Action callback)
+    public async void Get_UserPW(string a_UserID, Action callback)
     {
-        if (userVO == null)
-            return;
-
-        if (userVO.UserID == string.Empty)
-            return;
-
         //USER SEAT에서 유저 정보 찾기.
         {
             UserData tempUserData = new UserData();
             string path = "UserDataSeat";
 
-            await token.Child(path).OrderByKey().EqualTo(userVO.UserID).GetValueAsync().ContinueWith(task =>
+            await token.Child(path).OrderByKey().EqualTo(a_UserID).GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -286,11 +260,10 @@ public class FirebaseManager : MonoBehaviour
 
                     if (snapshot.Exists)
                     {
-                        string value = snapshot.Child(userVO.UserID).GetRawJsonValue();
+                        string value = snapshot.Child(a_UserID).GetRawJsonValue();
 
                         if (value == null)
                         {
-                            eState = ERROR_State.DonSearch_ID; //ID 없음.
                             return;
                         }
 
@@ -309,11 +282,6 @@ public class FirebaseManager : MonoBehaviour
             callback.Invoke();
     }
 
-    //비밀번호 변경 버튼
-    public void UpdatePW_Function()
-    {
-        Update_UserPW(if_testPW.text, delegate { Debug.Log(userVO.UserPW); });
-    }
     
     //비밀번호 변경 기능
     async void Update_UserPW(string a_newUserPW, Action callback)
@@ -379,7 +347,7 @@ public class FirebaseManager : MonoBehaviour
     }
 
 
-    //유저 정보- Cannon List 를 Database에 저장.
+    //VO 내의 Cannon List 를 Database에 저장.
     public void Update_UserCannon()
     {
         {
@@ -415,8 +383,8 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
-    //유저 정보- Battle List 를 Database에 저장.
-    void Update_UserBattleInfo()
+    //VO 내의 Battle List 를 Database에 저장.
+    public void Update_UserBattleInfo()
     {
         string battleInfoTable_path = "UserBattleInfoSeat/" + userVO.UID;
 
@@ -453,27 +421,25 @@ public class FirebaseManager : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// VO 내의 Cannon Key List에 value를 add 함.
+    /// </summary>
+    /// <param name="value">Cannon Key</param>
     public void addCannonnKeys(string value)
     {
         userVO.CannonInfos.CannonKeys.Add(value);
     }
 
+    /// <summary>
+    /// VO 내의 BattleInfo List에 value를 add함.
+    /// date는 add 할 때 Now DateTime으로 데이터를 자동으로 넣어줌.
+    /// </summary>
+    /// <param name="value">경기 결과 여부</param>
     public void addBattleInnfo(string value)
     {
         userVO.BattleInfos.Add(new UserBattleInfo() { date = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), result = value });
     }
-
-    public void UpdateCannonList()
-    {
-        Update_UserCannon();
-    }
-
-    public void UpdateBattleInfo()
-    {
-        Update_UserBattleInfo();
-    }
-
-
 }
 
 
