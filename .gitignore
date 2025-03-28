@@ -68,3 +68,10 @@ Assets/AddressableAssetsData/*/*.bin*
 # Android StreamingAssets 임시 파일
 Assets/StreamingAssets/aa.meta
 Assets/StreamingAssets/aa/*
+<<<<<<< HEAD
+=======
+
+#Firebase Plugin
+Assets/Plugins
+Assets/Firebase/Plugins
+>>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)

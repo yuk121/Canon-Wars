@@ -11,6 +11,10 @@ public class OptionPanel : MonoBehaviour
     [SerializeField] Text _sfxPercentText;
     [SerializeField] Dropdown resolutionDropdown;
     [SerializeField] AudioMixer audioMixer;
+<<<<<<< HEAD
+=======
+    [SerializeField] Button _confirmBtn;
+>>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
     [SerializeField] Button[] _closeBtns;
  
     float _prevMasterVolume;
@@ -25,6 +29,10 @@ public class OptionPanel : MonoBehaviour
         _masterSlider.onValueChanged.AddListener(OnChangeMasterVolume);
         _sfxSlider.onValueChanged.AddListener(OnChangeSFXVolume);
         resolutionDropdown.onValueChanged.AddListener(OnChangeResolution);
+<<<<<<< HEAD
+=======
+        _confirmBtn.onClick.AddListener(OnClickConfirm);
+>>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
         foreach (Button btn in _closeBtns)
         {
             btn.onClick.AddListener(OnClickClose);
