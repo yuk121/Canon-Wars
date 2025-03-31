@@ -1,21 +1,25 @@
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
-
 
 public class SceneFlowManager : MonoBehaviour
 {
-    public static SceneFlowManager _Instance;
+    public static SceneFlowManager _instance;
 
-    [SerializeField] GameObject loadingUI;
+    [Header("로딩 UI 프리팹")]
+    [SerializeField] GameObject loadingUIPrefab;
+
+    private GameObject pooledLoadingUI;
+    private LoadingUIController uiController;
 
     void Awake()
     {
-        if (_Instance == null)
+        if (_instance == null)
         {
-            _Instance = this;
+            _instance = this;
             transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
+            InitializeLoadingUI();
         }
         else
         {
@@ -23,23 +27,36 @@ public class SceneFlowManager : MonoBehaviour
         }
     }
 
-    public void LoadScene(string sceneName)
+    void InitializeLoadingUI()
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
+        if (loadingUIPrefab != null)
+        {
+            pooledLoadingUI = Instantiate(loadingUIPrefab);
+            uiController = pooledLoadingUI.GetComponent<LoadingUIController>();
+            pooledLoadingUI.transform.SetParent(null);
+            pooledLoadingUI.SetActive(false);
+            DontDestroyOnLoad(pooledLoadingUI);
+        }
     }
 
-    IEnumerator LoadSceneAsync(string sceneName)
+    public void LoadScene(string sceneName)
     {
-        loadingUI.SetActive(true);
+        bool showLoading = sceneName.Contains("3.IngameScene");
+        StartCoroutine(LoadSceneAsync(sceneName, showLoading));
+    }
 
-        yield return new WaitForSeconds(0.5f); // 살짝 기다리기
+    IEnumerator LoadSceneAsync(string sceneName, bool showLoading)
+    {
+        if (showLoading && uiController != null)
+            uiController.Show();
 
-        var op = SceneManager.LoadSceneAsync(sceneName);
+        yield return new WaitForSeconds(0.5f);
+
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         while (!op.isDone)
-        {
             yield return null;
-        }
 
-        loadingUI.SetActive(false);
+        if (showLoading && uiController != null)
+            uiController.SimulateLoading();
     }
 }

@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private float _dirX = 0;
     private bool _isMoveAngle = false;
     private float _curGauge = 0f;
-    private float _prevShellPower = 0f;
+    private float _prevShellPower = 0f;           // 이전에 쏜 파워 값
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
