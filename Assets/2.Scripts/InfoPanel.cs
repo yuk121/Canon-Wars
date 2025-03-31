@@ -1,26 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-<<<<<<< HEAD
-using UnityEditor.U2D.Aseprite;
-
-public class InfoPanel : MonoBehaviour
-{
-    [SerializeField] Text _nicknameText;
-    [SerializeField] Text _uidText;
-    [SerializeField] Image _selectedTankImage;
-    [SerializeField] Transform _tankSlotContainer;
-    [SerializeField] GameObject _tankSlotPrefab;
-
-    [SerializeField] Button _applyBtn;
-    [SerializeField] Button _confirmBtn;
-    [SerializeField] Button[] _closeBtns;
-    [SerializeField] Sprite defaultTankSprite;
-
-
-    string selectedTankId;
-
-=======
 
 public class InfoPanel : MonoBehaviour
 {
@@ -34,66 +14,38 @@ public class InfoPanel : MonoBehaviour
     [SerializeField] private Button[] _closeBtns;
 
     [Header("ÅÊÅ© ½½·Ô °ü·Ã")]
-    [SerializeField] private Transform[] tankSlots; // ½½·Ô ÇÏÀ§¿¡ ÀÌ¹ÌÁö°¡ ÀÖ¾î¾ß ÇÔ
-    [SerializeField] private Image _equippedTankImage; // ÀåÂø ÅÊÅ© ¹Ì¸®º¸±â ÀÌ¹ÌÁö
+    [SerializeField] private Transform[] tankSlots;
+    [SerializeField] private Image _equippedTankImage;
 
     private List<TankDataSO> allTankDataList = new List<TankDataSO>();
-    private TankDataSO _selectedTank; // ¼±ÅÃµÈ ÅÊÅ© µ¥ÀÌÅÍ
+    private TankDataSO _selectedTank;
 
     private Image _previousSlotImage;
     private Color _defaultColor = Color.white;
     private Color _selectedColor = Color.yellow;
->>>>>>> 7b40d61 (0328 íƒ±í¬ ì„ íƒ ê¸°ëŠ¥ ì¶”ê°€)
+
+    FirebaseManager _fm;
 
     void Start()
     {
+        if (_fm == null)
+        {
+            _fm = FirebaseManager._instance;
+        }
         _applyBtn.onClick.AddListener(OnClickApply);
         _confirmBtn.onClick.AddListener(OnClickConfirm);
         foreach (Button btn in _closeBtns)
         {
             btn.onClick.AddListener(OnClickClose);
         }
-<<<<<<< HEAD
-    }
 
-    void LoadOwnedTankSlots(List<string> tankList)
-    {
-        // ±âÁ¸ ½½·Ô Á¦°Å
-        foreach (Transform child in _tankSlotContainer)
-            Destroy(child.gameObject);
-
-        foreach (string tankId in tankList)
-        {
-            GameObject slot = Instantiate(_tankSlotPrefab, _tankSlotContainer);
-            Image image = slot.GetComponent<Image>();
-
-            Button button = slot.GetComponent<Button>();
-            button.onClick.AddListener(() => OnSelectTank(tankId, image));
-        }
-    }
-
-    Image previouslySelectedImage;
-
-    void OnSelectTank(string tankId, Image image)
-    {
-        // Å×µÎ¸® Ã³¸®
-        if (previouslySelectedImage != null)
-            previouslySelectedImage.color = Color.white;
-
-        image.color = Color.green;
-        previouslySelectedImage = image;
-
-        selectedTankId = tankId;
-    }
-
-
-    void OnClickApply()
-    {
-        Debug.Log("Àû¿ë ¹öÆ° Å¬¸¯");
-    }
-=======
-
+        InitUserData();
         InitTankData();
+    }
+    void InitUserData()
+    {
+        _nicknameText.text = _fm.userVO.NickName;
+        _uidText.text = _fm.userVO.UID;
     }
 
     void InitTankData()
@@ -111,7 +63,7 @@ public class InfoPanel : MonoBehaviour
                 image.sprite = allTankDataList[i]._tankSprite;
                 image.gameObject.SetActive(true);
 
-                // ÇÚµé·¯ ÀÚµ¿ ºÎÂø
+                // Å¬¸¯ ÇÚµé·¯ ÀÚµ¿ ºÎÂø
                 TankSlotClickHandler handler = imageTransform.GetComponent<TankSlotClickHandler>();
                 if (handler == null)
                 {
@@ -128,6 +80,21 @@ public class InfoPanel : MonoBehaviour
         }
     }
 
+    public void OnSelectTankFromSlot(int index)
+    {
+        _selectedTank = allTankDataList[index];
+        Debug.Log($"¼±ÅÃµÈ ÅÊÅ©: {_selectedTank._tankName}");
+
+        Image currentSlotImage = tankSlots[index].GetComponent<Image>();
+        if (currentSlotImage != null)
+        {
+            if (_previousSlotImage != null)
+                _previousSlotImage.color = _defaultColor;
+
+            currentSlotImage.color = _selectedColor;
+            _previousSlotImage = currentSlotImage;
+        }
+    }
 
     void OnClickApply()
     {
@@ -138,43 +105,19 @@ public class InfoPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning(" ¼±ÅÃµÈ ÅÊÅ©°¡ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("¼±ÅÃµÈ ÅÊÅ©°¡ ¾ø½À´Ï´Ù.");
         }
     }
 
->>>>>>> 7b40d61 (0328 íƒ±í¬ ì„ íƒ ê¸°ëŠ¥ ì¶”ê°€)
     void OnClickConfirm()
     {
-        Debug.Log("È®ÀÎ ¹öÆ° Å¬¸¯");
+        OnClickApply();
+        gameObject.SetActive(false);
+        Debug.Log(" È®ÀÎ ¹öÆ° Å¬¸¯");
     }
 
     void OnClickClose()
     {
         gameObject.SetActive(false);
     }
-
-<<<<<<< HEAD
-=======
-    public void OnSelectTankFromSlot(int index)
-    {
-        _selectedTank = allTankDataList[index];
-        Debug.Log($" ¼±ÅÃµÈ ÅÊÅ©: {_selectedTank._tankName}");
-
-        // ÇöÀç ½½·Ô ÀÌ¹ÌÁö
-        Image currentSlotImage = tankSlots[index].GetComponent<Image>();
-
-        if (currentSlotImage != null)
-        {
-            // ÀÌÀü ¼±ÅÃ ÇØÁ¦
-            if (_previousSlotImage != null)
-                _previousSlotImage.color = _defaultColor;
-
-            // ÇöÀç ¼±ÅÃ °­Á¶
-            currentSlotImage.color = _selectedColor;
-            _previousSlotImage = currentSlotImage;
-        }
-    }
-
->>>>>>> 7b40d61 (0328 íƒ±í¬ ì„ íƒ ê¸°ëŠ¥ ì¶”ê°€)
-
 }

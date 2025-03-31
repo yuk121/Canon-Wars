@@ -14,17 +14,6 @@ PluginImporter:
   isPreloaded: 0
   isOverridable: 0
   isExplicitlyReferenced: 0
-<<<<<<< HEAD
-  validateReferences: 1
-  platformData:
-    Any:
-      enabled: 0
-      settings: {}
-    Editor:
-      enabled: 1
-      settings:
-        DefaultValueInitialized: true
-=======
   validateReferences: 0
   platformData:
     Any:
@@ -57,7 +46,6 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: AnyCPU
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
     WindowsStoreApps:
       enabled: 0
       settings:

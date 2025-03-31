@@ -14,28 +14,16 @@ PluginImporter:
   isPreloaded: 0
   isOverridable: 0
   isExplicitlyReferenced: 0
-<<<<<<< HEAD
-  validateReferences: 1
-=======
   validateReferences: 0
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   platformData:
-    Android:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
     Any:
       enabled: 0
-<<<<<<< HEAD
-      settings: {}
-=======
       settings:
         Exclude Editor: 0
         Exclude Linux64: 1
         Exclude OSXUniversal: 1
         Exclude Win: 1
         Exclude Win64: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
     Editor:
       enabled: 1
       settings:
@@ -45,36 +33,23 @@ PluginImporter:
     Linux64:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
     OSXUniversal:
       enabled: 0
       settings:
-        CPU: None
-    WebGL:
-      enabled: 0
-      settings: {}
+        CPU: AnyCPU
     Win:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
     Win64:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
     WindowsStoreApps:
       enabled: 0
       settings:
         CPU: AnyCPU
-    iOS:
-      enabled: 0
-      settings:
-        CompileFlags: 
-        FrameworkDependencies: 
-    tvOS:
-      enabled: 0
-      settings:
-        CompileFlags: 
-        FrameworkDependencies: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -119,8 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
-=======
 --- !u!1 &5640178
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +198,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5640178}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &21976465
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,10 +448,7 @@ RectTransform:
   m_Children:
   - {fileID: 513875373}
   - {fileID: 653063714}
-<<<<<<< HEAD
-=======
   - {fileID: 393152833}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -498,8 +492,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -209, y: 227}
-  m_SizeDelta: {x: 300, y: 100}
+  m_AnchoredPosition: {x: -198, y: 227}
+  m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &167449849
 MonoBehaviour:
@@ -573,7 +567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19, y: -28}
+  m_AnchoredPosition: {x: -7, y: -28}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &179012273
@@ -618,8 +612,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179012271}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &186514046
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +687,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 186514046}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &236038507
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,8 +808,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 236038507}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &246568322
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,7 +883,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246568322}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &255819223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,11 +1047,7 @@ GameObject:
   - component: {fileID: 311566902}
   - component: {fileID: 311566901}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: InfoIcon
-=======
-  m_Name: Icon
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1160,7 +1144,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 95, y: -28}
+  m_AnchoredPosition: {x: 69, y: -28}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &311948086
@@ -1205,8 +1189,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311948084}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &393152832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,6 +1220,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1500233022}
   - {fileID: 1076855185}
   - {fileID: 1421586182}
   m_Father: {fileID: 33771668}
@@ -1307,7 +1290,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393152832}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &462043836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,6 +1408,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468567944}
   m_CullTransparentMesh: 1
+--- !u!1 &509914970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 509914971}
+  - component: {fileID: 509914973}
+  - component: {fileID: 509914972}
+  m_Layer: 5
+  m_Name: Block
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &509914971
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509914970}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 653063714}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &509914972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509914970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &509914973
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509914970}
+  m_CullTransparentMesh: 1
 --- !u!1 &513875372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1503,8 +1560,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513875372}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &531171266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,7 +1680,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531171266}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &544507641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,11 +1813,7 @@ GameObject:
   - component: {fileID: 581269050}
   - component: {fileID: 581269049}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: Image (2)
-=======
-  m_Name: Slot
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1827,8 +1877,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581269047}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &619499100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,7 +1952,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619499100}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &653063713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1916,21 +1963,14 @@ GameObject:
   - component: {fileID: 653063714}
   - component: {fileID: 653063716}
   - component: {fileID: 653063715}
-<<<<<<< HEAD
-=======
   - component: {fileID: 653063717}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_Layer: 5
   m_Name: InfoPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-<<<<<<< HEAD
-  m_IsActive: 1
-=======
   m_IsActive: 0
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!224 &653063714
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1943,6 +1983,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 509914971}
   - {fileID: 1784398470}
   - {fileID: 1072233256}
   m_Father: {fileID: 33771668}
@@ -1990,8 +2031,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653063713}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!114 &653063717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2358,7 +2397,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 781758667}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &795077286
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,8 +2476,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795077286}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &831707147
 GameObject:
   m_ObjectHideFlags: 0
@@ -2863,7 +2899,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912903184}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &987518994
 GameObject:
   m_ObjectHideFlags: 0
@@ -2921,11 +2956,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-<<<<<<< HEAD
   m_Sprite: {fileID: -6224010137909128836, guid: 0bf0a544981efbb459e14f2d1fd7d51b, type: 3}
-=======
-  m_Sprite: {fileID: 0}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2943,8 +2974,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 987518994}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1010119377
 GameObject:
   m_ObjectHideFlags: 0
@@ -3095,7 +3124,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021408031}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1031557966
 GameObject:
   m_ObjectHideFlags: 0
@@ -3113,11 +3141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-<<<<<<< HEAD
   m_IsActive: 0
-=======
-  m_IsActive: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!224 &1031557967
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3211,8 +3235,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -209, y: 103}
-  m_SizeDelta: {x: 300, y: 100}
+  m_AnchoredPosition: {x: -198, y: 103}
+  m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1046606829
 MonoBehaviour:
@@ -3286,7 +3310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 114, y: -28}
+  m_AnchoredPosition: {x: 92, y: -28}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047538034
@@ -3343,11 +3367,7 @@ GameObject:
   - component: {fileID: 1067772073}
   - component: {fileID: 1067772072}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: Image (4)
-=======
-  m_Name: Slot
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3492,8 +3512,6 @@ RectTransform:
   m_AnchoredPosition: {x: -47, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
-<<<<<<< HEAD
-=======
 --- !u!1 &1076855184
 GameObject:
   m_ObjectHideFlags: 0
@@ -3653,7 +3671,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081830436}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1117817941
 GameObject:
   m_ObjectHideFlags: 0
@@ -3667,11 +3684,7 @@ GameObject:
   - component: {fileID: 1117817944}
   - component: {fileID: 1117817943}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: Button (Legacy)
-=======
-  m_Name: ApplyBtn
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3791,11 +3804,7 @@ GameObject:
   - component: {fileID: 1137636898}
   - component: {fileID: 1137636897}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: Image
-=======
-  m_Name: Slot
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3859,8 +3868,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137636895}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1186291659
 GameObject:
   m_ObjectHideFlags: 0
@@ -4157,7 +4164,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239796782}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1273570922
 GameObject:
   m_ObjectHideFlags: 0
@@ -4374,8 +4380,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
-<<<<<<< HEAD
-=======
 --- !u!1 &1288918028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4774,7 +4778,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411188518}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1413227211
 GameObject:
   m_ObjectHideFlags: 0
@@ -4788,11 +4791,7 @@ GameObject:
   - component: {fileID: 1413227214}
   - component: {fileID: 1413227213}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: Button (Legacy) (2)
-=======
-  m_Name: ConfirmBtn
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4900,8 +4899,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413227211}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1417614379
 GameObject:
   m_ObjectHideFlags: 0
@@ -4939,7 +4936,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -186}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1419494743
 GameObject:
   m_ObjectHideFlags: 0
@@ -5015,8 +5011,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419494743}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1421586181
 GameObject:
   m_ObjectHideFlags: 0
@@ -5057,7 +5051,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1430232136
 GameObject:
   m_ObjectHideFlags: 0
@@ -5134,8 +5127,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430232136}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1438127816
 GameObject:
   m_ObjectHideFlags: 0
@@ -5174,7 +5165,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -93}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1439745272
 GameObject:
   m_ObjectHideFlags: 0
@@ -5254,8 +5244,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439745272}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1449783364
 GameObject:
   m_ObjectHideFlags: 0
@@ -5331,7 +5319,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449783364}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1457626872
 GameObject:
   m_ObjectHideFlags: 0
@@ -5411,8 +5398,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
-=======
 --- !u!1 &1486463349
 GameObject:
   m_ObjectHideFlags: 0
@@ -5578,7 +5563,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497896200}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
+--- !u!1 &1500233021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1500233022}
+  - component: {fileID: 1500233024}
+  - component: {fileID: 1500233023}
+  m_Layer: 5
+  m_Name: Block
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1500233022
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500233021}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 393152833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1500233023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500233021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1500233024
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500233021}
+  m_CullTransparentMesh: 1
 --- !u!1 &1500532036
 GameObject:
   m_ObjectHideFlags: 0
@@ -5897,8 +5956,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551052456}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1603252475
 GameObject:
   m_ObjectHideFlags: 0
@@ -5935,7 +5992,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1623568718
 GameObject:
   m_ObjectHideFlags: 0
@@ -5949,11 +6005,7 @@ GameObject:
   - component: {fileID: 1623568721}
   - component: {fileID: 1623568720}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: Button (Legacy) (1)
-=======
-  m_Name: CloseBtn
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6061,8 +6113,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623568718}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1677017583
 GameObject:
   m_ObjectHideFlags: 0
@@ -6101,7 +6151,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1686604815
 GameObject:
   m_ObjectHideFlags: 0
@@ -6211,7 +6260,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19, y: -28}
+  m_AnchoredPosition: {x: -3, y: -28}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1767483800
@@ -6373,8 +6422,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787049187}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1791243195
 GameObject:
   m_ObjectHideFlags: 0
@@ -6544,7 +6591,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845343225}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1900971507
 GameObject:
   m_ObjectHideFlags: 0
@@ -6683,11 +6729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-<<<<<<< HEAD
   m_IsActive: 0
-=======
-  m_IsActive: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!224 &1923512446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6745,8 +6787,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923512445}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &1933413310
 GameObject:
   m_ObjectHideFlags: 0
@@ -6917,7 +6957,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1945971053}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &1962172737
 GameObject:
   m_ObjectHideFlags: 0
@@ -7192,8 +7231,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015883369}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &2020834278
 GameObject:
   m_ObjectHideFlags: 0
@@ -7368,7 +7405,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021274938}
   m_CullTransparentMesh: 1
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1 &2071503504
 GameObject:
   m_ObjectHideFlags: 0
@@ -7381,11 +7417,7 @@ GameObject:
   - component: {fileID: 2071503507}
   - component: {fileID: 2071503506}
   m_Layer: 5
-<<<<<<< HEAD
   m_Name: Image (3)
-=======
-  m_Name: Slot
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7506,11 +7538,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-<<<<<<< HEAD
   m_Sprite: {fileID: -4315122233561715252, guid: 0bf0a544981efbb459e14f2d1fd7d51b, type: 3}
-=======
-  m_Sprite: {fileID: 0}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7528,8 +7556,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2099033870}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &2112306042
 GameObject:
   m_ObjectHideFlags: 0
@@ -7641,15 +7667,11 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1275309914}
   - {fileID: 1457626875}
-<<<<<<< HEAD
-=======
   - {fileID: 670477762}
->>>>>>> 7b40d61 (0328 탱크 선택 기능 추가)
   - {fileID: 33771668}

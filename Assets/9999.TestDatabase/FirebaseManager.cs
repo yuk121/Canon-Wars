@@ -12,6 +12,7 @@ using UnityEngine.Events;
 using System.Linq;
 
 
+
 public enum ERROR_State
 {
     NONE,
@@ -22,6 +23,7 @@ public enum ERROR_State
 
 public class FirebaseManager : MonoBehaviour
 {
+    public static FirebaseManager _instance;
     public UserData userVO;
     private DatabaseReference token;
 
@@ -31,10 +33,23 @@ public class FirebaseManager : MonoBehaviour
     [Space(10)]
     public UnityEvent loginCallback;
 
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
     async void Start()
     {
-        DontDestroyOnLoad(this);
-
         await InitializeFirebase();
     }
 
@@ -64,7 +79,7 @@ public class FirebaseManager : MonoBehaviour
         UserData userData = new UserData();
         userData.UserID = a_UserID;
         userData.UserPW = a_UserPW;
-        userData.NickName= a_UserNickName;
+        userData.NickName = a_UserNickName;
         userData.UID = DateTime.Now.ToString("yyyyMMddHHmmss");
 
         ///---- User 테이블에 user 정보 저장.
@@ -89,7 +104,7 @@ public class FirebaseManager : MonoBehaviour
         ///---- User의 보유 Cannon Table에 User의 정보 생성.
         {
             string cannonTable_path = "UserCannonSeat/" + userData.UID;
-            
+
             ///firebase에는 null 값으로 data를 저장할 수 없음. 따라서 임시 0번째의 값을 빈 값으로 객체를 직렬화하여 seat를 초기화함.
             UserCannon userCannon = new UserCannon();
             userCannon.CannonKeys = new List<string>();
@@ -171,7 +186,7 @@ public class FirebaseManager : MonoBehaviour
                         tempUserData = JsonConvert.DeserializeObject<UserData>(value);
                     }
                 }
-             });
+            });
 
 
 
@@ -186,7 +201,7 @@ public class FirebaseManager : MonoBehaviour
             userVO.UID = tempUserData.UID;
             userVO.UserID = tempUserData.UserID;
             userVO.UserPW = tempUserData.UserPW;
-         }
+        }
 
         //user battleinfoseat에서 유저 정보 찾기.
         {
@@ -239,7 +254,7 @@ public class FirebaseManager : MonoBehaviour
         }
 
         eState = ERROR_State.NONE;
-        if(success_callback != null)
+        if (success_callback != null)
             success_callback.Invoke();
     }
 
@@ -282,7 +297,7 @@ public class FirebaseManager : MonoBehaviour
             callback.Invoke();
     }
 
-    
+
     //비밀번호 변경 기능
     async void Update_UserPW(string a_newUserPW, Action callback)
     {

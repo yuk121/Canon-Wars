@@ -26,13 +26,13 @@ public class StartSceneManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] Image _maskImage;
 
-    [Space(10)] 
+    [Space(10)]
     [SerializeField] GameObject _infoWindowObject;
     [SerializeField] Text _infoText;
 
     [Space(10)]
     [SerializeField] GameObject _createAccountWindow;
-    
+
 
     void Start()
     {
@@ -108,10 +108,10 @@ public class StartSceneManager : MonoBehaviour
 
         //서브 팝업 화면 Button Action 부여.
         {
-            _createAccountBtn.onClick.AddListener( 
-                delegate 
+            _createAccountBtn.onClick.AddListener(
+                delegate
                 {
-                    if(string.IsNullOrEmpty(_nickNameField.text))
+                    if (string.IsNullOrEmpty(_nickNameField.text))
                     {
                         _maskImage.raycastTarget = true;
                         _infoWindowObject.SetActive(true);
@@ -119,7 +119,7 @@ public class StartSceneManager : MonoBehaviour
                         return;
                     }
 
-                    _fm.Create_UserAccount(_idField.text, _passwordField.text, _nickNameField.text); 
+                    _fm.Create_UserAccount(_idField.text, _passwordField.text, _nickNameField.text);
                 });
         }
     }
@@ -130,7 +130,7 @@ public class StartSceneManager : MonoBehaviour
     /// </summary>
     void Check_Empty_BaseInputField(Action action)
     {
-        if(string.IsNullOrEmpty(_idField.text)) 
+        if (string.IsNullOrEmpty(_idField.text))
         {
             _maskImage.raycastTarget = true;
             _infoWindowObject.SetActive(true);
@@ -138,7 +138,7 @@ public class StartSceneManager : MonoBehaviour
             return;
         }
 
-        if(string.IsNullOrEmpty(_passwordField.text))
+        if (string.IsNullOrEmpty(_passwordField.text))
         {
             _maskImage.raycastTarget = true;
             _infoWindowObject.SetActive(true);
@@ -154,15 +154,16 @@ public class StartSceneManager : MonoBehaviour
         string email = _idField.text;
         string password = _passwordField.text;
 
-        _fm.Login(email, password, 
+        _fm.Login(email, password,
         delegate
         {
             _maskImage.raycastTarget = true;
             _infoWindowObject.SetActive(true);
             _infoText.text = "일치하지 않는 아이디 혹은 비밀번호야! 확인해줘!";
         },
-        delegate 
+        delegate
         {
+            SceneFlowManager._Instance.LoadScene("2.LobbyScene"); 
             //씬 전환 소스를 여기에 넣으면 됩니다.
             //로그인 되어서 VO Setting 후 다음 씬으로 넘어갑니다.
         });
