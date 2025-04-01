@@ -25,11 +25,20 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float _randGroundIntervalMax = 2f;       // 최대 땅 간격
 
     private eMapType _mapType = eMapType.None;
-    private List<Rect> existingGrounds = new List<Rect>();           // 생성된 땅들의 영역 저장
+    private List<Rect> _existingGrounds = new List<Rect>();           // 생성된 땅들의 영역 저장 (검사용)
+    private List<PolygonCollider2D> _colliderGroundList = new List<PolygonCollider2D>();       // 콜라이더 리스트 저장
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Init();
+    }
+
+    public void Init()
+    {
+        _colliderGroundList.Clear();
+        _existingGrounds.Clear();
+
         RandomMapGeneration();
         RandomGroundGeneration();
     }
@@ -93,7 +102,7 @@ public class MapGenerator : MonoBehaviour
 
                 bool isOverlapping = false;
 
-                foreach (Rect existing in existingGrounds)
+                foreach (Rect existing in _existingGrounds)
                 {
                     // 땅이 겹치는지 확인
                     if (existing.Overlaps(newGroundBounds))
@@ -112,7 +121,7 @@ public class MapGenerator : MonoBehaviour
                 if (!isOverlapping)
                 {
                     newPosition = new Vector3(groundPosX, groundPosY, 0);
-                    existingGrounds.Add(newGroundBounds);
+                    _existingGrounds.Add(newGroundBounds);
                     isValidPosition = true;
                     break;
                 }
@@ -121,6 +130,7 @@ public class MapGenerator : MonoBehaviour
             if (isValidPosition)
             {
                 ground.transform.position = newPosition;
+                _colliderGroundList.Add(ground.GetComponent<PolygonCollider2D>());
             }
             else
             {              
@@ -130,5 +140,10 @@ public class MapGenerator : MonoBehaviour
             // 다음 위치 계산 (간격 랜덤)
             i += (int)(Random.Range(_randGroundIntervalMin, _randGroundIntervalMax) * randScale);
         }
+    }
+
+    public List<PolygonCollider2D> GetGroundCollider2DList()
+    {
+        return _colliderGroundList;
     }
 }
