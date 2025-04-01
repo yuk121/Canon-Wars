@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Artillery")]
     [SerializeField] private Transform _artilleryTrans;
-    [SerializeField] private Transform _bulletPos;
+    [SerializeField] private Transform _shellFireTrans;
     [SerializeField] private float _artilleryRotateSpeed = 10f;
     [SerializeField] private float _minAngleArtillery = 0f;
     [SerializeField] private float _maxAngleArtillery = 85f;
@@ -27,9 +27,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _curShellPower = 1f;
     [SerializeField] private float _powerGaugeSpeed = 1f;
 
+    [Header("Prediction Point")]
+    [SerializeField] private GameObject _predictionPointPrefab = null;
+    [SerializeField] private int _predictionPointNum = 20;                      // 예측 지점 수
+
     private Rigidbody2D _rb2D = null;               // Tank RigidBody 2D
     private CircleCollider2D _colider2D = null;     // Tank CircleCollider 2D
     private GameObject _curShell = null;            // 현재 선택된 포탄    
+    private GameObject[] _predictionPoints;        // 예측 지점 오브젝트 배열
 
     private float _dirY = 0;
     private float _dirX = 0;
@@ -50,6 +55,16 @@ public class PlayerController : MonoBehaviour
 
         // Default
         _curShell = _shellList[0];
+
+        // 예측 점 생성
+        _predictionPoints = new GameObject[_predictionPointNum];
+
+        for(int i = 0; i < _predictionPointNum; i++)
+        {
+            _predictionPoints[i] = Instantiate(_predictionPointPrefab, Vector3.zero, Quaternion.identity);
+        }
+
+        HidePredictionsPoints();
     }
     // Update is called once per frame
 
@@ -108,9 +123,10 @@ public class PlayerController : MonoBehaviour
             _prevShellPower = _curShellPower;
         }
 
+        // 포 각도 조절
         _dirY = Input.GetAxis("Vertical");
-        // 새로운 회전값 계산 (현재 회전 + 입력값)
 
+        // 새로운 회전값 계산 (현재 회전 + 입력값)
         float currentZ = _artilleryTrans.localEulerAngles.z;
 
         if (currentZ > 180f)
@@ -119,6 +135,9 @@ public class PlayerController : MonoBehaviour
         float newZ = Mathf.Clamp(currentZ + _dirY * Time.deltaTime * _artilleryRotateSpeed, _minAngleArtillery, _maxAngleArtillery);
         Quaternion quaternion = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.eulerAngles.y, newZ);
         _artilleryTrans.localRotation = Quaternion.Lerp(_artilleryTrans.localRotation, quaternion, Time.deltaTime * 10);
+
+        // 예측 지점 보여주기
+        ShowPredictionPoints(0.1f);
 
         // 땅 위에 있는지 확인
         if (IsGround())
@@ -134,12 +153,16 @@ public class PlayerController : MonoBehaviour
                 Vector3 newScale = transform.localScale;
                 newScale.x = Mathf.Abs(newScale.x) * Mathf.Sign(_dirX); // 좌우 반전
                 transform.localScale = newScale;
+
+                // 이동중에 예측지점 숨기기
+                HidePredictionsPoints();
             }
         }
         else
         {
             // 공중일땐 수평 
             transform.rotation = Quaternion.Euler(0, 0, 0);
+            HidePredictionsPoints();
         }
     }
 
@@ -149,11 +172,11 @@ public class PlayerController : MonoBehaviour
 
         if (go == null)
         {
-            go = Instantiate(_curShell, _bulletPos.position, Quaternion.identity);
+            go = Instantiate(_curShell, _shellFireTrans.position, Quaternion.identity);
             PoolManager.Instance.Push(go);
         }
             
-        go.transform.position = _bulletPos.position;
+        go.transform.position = _shellFireTrans.position;
         go.transform.rotation = Quaternion.Euler(0, 0, _artilleryTrans.eulerAngles.z);
         
         // 포탄 방향 
@@ -253,12 +276,46 @@ public class PlayerController : MonoBehaviour
         return Mathf.Abs(targetAngle) <= _moveAngleThreshold;
     }
 
-    void OnDrawGizmos()
+    private void ShowPredictionPoints(float time)
     {
-        //if(_colider2D != null)
-        //{
-        //    Vector2 pos = new Vector2(transform.position.x + _colider2D.offset.x, transform.position.y + _colider2D.offset.y);
-        //    Gizmos.DrawCube(pos, new Vector2(_colider2D.radius * 2, _colider2D.radius *2));
-        //}
+        for(int i = 0; i < _predictionPointNum; i++)
+        {
+            _predictionPoints[i].transform.position = PredictionPointsPos(i * time);
+            _predictionPoints[i].SetActive(true);
+        }
+    }
+
+    private void HidePredictionsPoints()
+    {
+        for (int i = 0; i < _predictionPointNum; i++)
+        {
+            _predictionPoints[i].SetActive(false);
+        }
+    }
+
+    // 예측 지점 계산
+    private Vector2 PredictionPointsPos(float time)
+    {
+        Vector2 pos = Vector2.zero;
+
+        float fireAngle = _artilleryTrans.eulerAngles.z * Mathf.Deg2Rad;
+
+        if (transform.localScale.x < 0)
+        {
+            fireAngle = Mathf.PI - fireAngle;
+        }
+
+        // Rigidbody2D의 질량 가져오기 (필수)
+        float mass = _curShell.GetComponent<Rigidbody2D>().mass;
+
+        // AddForce에서 적용한 힘
+        Vector2 force = new Vector2(Mathf.Cos(fireAngle), Mathf.Sin(fireAngle) * Mathf.Sign(transform.localScale.x)) * _curShellPower;
+
+        // 초기 속도 (F = m * a -> v = F / m)
+        Vector2 initialVelocity = force / mass;
+
+        pos = (Vector2)_shellFireTrans.position + initialVelocity * time + Physics2D.gravity * (time * time) * 0.5f;
+        
+        return pos;
     }
 }
