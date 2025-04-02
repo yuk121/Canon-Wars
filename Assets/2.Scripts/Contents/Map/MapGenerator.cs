@@ -6,9 +6,10 @@ public class MapGenerator : MonoBehaviour
     private enum eMapType
     {
         None = -1,
-        Jungle,
-        Desert,
-        Ice,
+        Bridge,
+        //Jungle,
+        //Desert,
+        //Ice,
         Max
     }
 
@@ -16,38 +17,54 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private List<Texture2D> _mapGroundTextureList = new List<Texture2D>();
     [SerializeField] private Ground _mapGroundPrefab = null;
 
-    [Header("Scale")]
+    #region Random Map Generation
+    [Header("Map Size")]
+    [SerializeField] private float _mapSizeWidthRatio = 2.5f;         // 기본적으로 카메라 가로 크기에 맞춰서 증가
+
+    [Header("Ground Scale")]
     [SerializeField] private float _randGroundScaleMin = 0.5f;        // 최소 땅 크기
     [SerializeField] private float _randGroundScaleMax = 1.5f;       // 최대 땅 크기
 
-    [Header("Interval")]
+    [Header("Ground Interval")]
     [SerializeField] private float _randGroundIntervalMin = 1f;       // 최소 땅 간격
     [SerializeField] private float _randGroundIntervalMax = 2f;       // 최대 땅 간격
 
+    private List<Rect> _existingGrounds = new List<Rect>();           // 생성된 땅들의 영역 저장 (검사용)
+    private List<PolygonCollider2D> _colliderGroundList = new List<PolygonCollider2D>();       // 콜라이더 리스트 저장
+    #endregion
+
     private eMapType _mapType = eMapType.None;
-    private List<Rect> existingGrounds = new List<Rect>();           // 생성된 땅들의 영역 저장
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Init();
+    }
+
+    public void Init()
+    {
+        _colliderGroundList.Clear();
+        _existingGrounds.Clear();
+
         RandomMapGeneration();
-        RandomGroundGeneration();
+        //RandomGroundGeneration();
     }
 
     public void RandomMapGeneration()
     {
         // 랜덤 선택
-        _mapType =(eMapType)Random.Range((int)eMapType.Jungle, (int)eMapType.Max);
+        _mapType =(eMapType)Random.Range((int)eMapType.Bridge, (int)eMapType.Max);
 
         // 배경 생성
         GameObject map = Instantiate(_mapPrefabList[(int)_mapType]);
         map.transform.parent = this.transform;
     }
 
+    #region Random Ground Generation
     private void RandomGroundGeneration()
     {
         float height = Camera.main.orthographicSize;
-        float width = height * Camera.main.aspect;
+        float width = height * Camera.main.aspect * _mapSizeWidthRatio;
 
         int orderInLayerInc = 0;
         int maxAttempts = 3; // 최대 시도 횟수
@@ -93,7 +110,7 @@ public class MapGenerator : MonoBehaviour
 
                 bool isOverlapping = false;
 
-                foreach (Rect existing in existingGrounds)
+                foreach (Rect existing in _existingGrounds)
                 {
                     // 땅이 겹치는지 확인
                     if (existing.Overlaps(newGroundBounds))
@@ -112,7 +129,7 @@ public class MapGenerator : MonoBehaviour
                 if (!isOverlapping)
                 {
                     newPosition = new Vector3(groundPosX, groundPosY, 0);
-                    existingGrounds.Add(newGroundBounds);
+                    _existingGrounds.Add(newGroundBounds);
                     isValidPosition = true;
                     break;
                 }
@@ -121,6 +138,7 @@ public class MapGenerator : MonoBehaviour
             if (isValidPosition)
             {
                 ground.transform.position = newPosition;
+                _colliderGroundList.Add(ground.GetComponent<PolygonCollider2D>());
             }
             else
             {              
@@ -131,4 +149,10 @@ public class MapGenerator : MonoBehaviour
             i += (int)(Random.Range(_randGroundIntervalMin, _randGroundIntervalMax) * randScale);
         }
     }
+
+    public List<PolygonCollider2D> GetGroundCollider2DList()
+    {
+        return _colliderGroundList;
+    }
+    #endregion
 }

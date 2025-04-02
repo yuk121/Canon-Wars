@@ -114,7 +114,7 @@ MonoBehaviour:
   _moveAngleThreshold: 70
   _speed: 2
   _artilleryTrans: {fileID: 8548201414771055224}
-  _bulletPos: {fileID: 5493873208543960182}
+  _shellFireTrans: {fileID: 5493873208543960182}
   _artilleryRotateSpeed: 400
   _minAngleArtillery: 0
   _maxAngleArtillery: 85
@@ -125,6 +125,8 @@ MonoBehaviour:
   _minShellPower: 0.1
   _curShellPower: 1
   _powerGaugeSpeed: 1
+  _predictionPointPrefab: {fileID: 7947759691570865234, guid: 7cde018ebc819d74ca1c4dc47b2b2b30, type: 3}
+  _predictionPointNum: 10
 --- !u!1 &3762474273888376756
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5493873208543960182}
   m_Layer: 9
-  m_Name: BulletPos
+  m_Name: ShellFirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
