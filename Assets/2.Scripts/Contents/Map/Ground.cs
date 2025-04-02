@@ -17,14 +17,15 @@ public class Ground : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Init();
     }
 
-    public void Init(Texture2D texture)
+    public void Init(Texture2D texture = null)
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         
         // 텍스쳐 할당
-        _srcTexture = texture;
+        //_srcTexture = texture;
 
         // sprite로 생성
         _newTexture = new Texture2D(_srcTexture.width, _srcTexture.height, TextureFormat.RGBA32, false);

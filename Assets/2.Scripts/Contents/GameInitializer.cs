@@ -6,12 +6,15 @@ using UnityEngine;
 
 public class GameInitializer : MonoBehaviour
 {
+    private const float SPAWN_OFFEST_X = 1.5f;
+    private const float SPAWN_OFFSET_Y = 1.5f;
+    private const int SPAWN_POS_REMOVE_RANGE = 2;      // 스폰 위치 주위 삭제 범위 (플레이어간 너무 가까운곳에 생성 방지)
     [SerializeField] private MapGenerator _mapGenerator;
     [SerializeField] private List<GameObject> _tankPrefabList;
     [SerializeField] private float _playerCount = 0;
 
     private List<PolygonCollider2D> _polygonCollider2DList;
-    private List<Vector2> _groundTopPos = new List<Vector2>();
+    private List<Vector2Int> _groundTopPos = new List<Vector2Int>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,51 +47,87 @@ public class GameInitializer : MonoBehaviour
             pCallback.Invoke();
     }
     #region Ground Top Pos Find Method
-    private List<Vector2> FindGroundTopPos()
+    private List<Vector2Int> FindGroundTopPos()
     {
-        List<Vector2> topPosList = new List<Vector2>();
+        List<Vector2Int> topPosListAll = new List<Vector2Int>(); // 모든 그라운드 top pos 리스트
 
         foreach (var colider in _polygonCollider2DList)
         {
             if (colider == null)
                 continue;
 
-            float maxY = float.MinValue;
+            int maxY = int.MinValue;
+            HashSet<Vector2Int> coliderTopPosSet = new HashSet<Vector2Int>(); // 중복 제거를 위한 HashSet
 
-            // 모든 경로를 순회하며 최상단 좌표를 탐색
+            // 모든 경로 순회하며 최상단 좌표 탐색
             for (int pathIndex = 0; pathIndex < colider.pathCount; pathIndex++)
             {
                 Vector2[] points = colider.GetPath(pathIndex);
 
                 foreach (Vector2 point in points)
                 {
-                    Vector2 worldPoint = transform.TransformPoint(point);
+                    Vector2 worldPoint = colider.transform.TransformPoint(point);
+
+                    // x 좌표: SPAWN_OFFSET_X 보정 후 변환
+                    int posIntX = Mathf.RoundToInt(worldPoint.x - Mathf.Sign(worldPoint.x) * SPAWN_OFFEST_X);
+                    // y 좌표: SPAWN_OFFSET_Y 보정 후 변환
+                    int posIntY = Mathf.CeilToInt(worldPoint.y + SPAWN_OFFSET_Y);
+
+                    Vector2Int worldPointInt = new Vector2Int(posIntX, posIntY);
 
                     // 최상단 y값 갱신
-                    if (worldPoint.y > maxY)
+                    if (posIntY > maxY)
                     {
-                        maxY = worldPoint.y;
-                        topPosList.Clear(); // 새로운 최대값이 등장하면 초기화
-                        topPosList.Add(worldPoint);
+                        maxY = posIntY;
+                        coliderTopPosSet.Clear(); // 새로운 최상단 발견 시 초기화
+                        coliderTopPosSet.Add(worldPointInt);
                     }
-                    else if (Mathf.Approximately(worldPoint.y, maxY))
+                    else if (posIntY == maxY)
                     {
-                        topPosList.Add(worldPoint); // 동일한 최대값인 경우 추가
+                        coliderTopPosSet.Add(worldPointInt); // 같은 높이의 좌표 추가
                     }
                 }
             }
+
+            // 최상단 좌표 리스트 정렬 (x 값 기준으로 정렬)
+            List<Vector2Int> coliderTopPosList = coliderTopPosSet.ToList();
+
+            // 최대 ~ 최소까지 1 단위 간격으로 좌표 생성
+            List<Vector2Int> topLinePos = GenerateTopLine(coliderTopPosList);
+
+            // 결과 리스트에 추가
+            topPosListAll.AddRange(topLinePos);
         }
 
-        return topPosList;
+        return topPosListAll;
+    }
+
+    // 최상단 좌표를 기반으로 연속적인 x 좌표 리스트 생성
+    private List<Vector2Int> GenerateTopLine(List<Vector2Int> topPositions)
+    {
+        List<Vector2Int> topNewPos = new List<Vector2Int>();
+
+        if (topPositions.Count == 0) return topNewPos;
+
+        int startX = topPositions[0].x;
+        int endX = topPositions[topPositions.Count - 1].x;
+        int y = topPositions[0].y; // 모든 y 값이 같으므로 하나만 가져옴
+
+        for (int x = startX; x >= endX; x--)
+        {
+            topNewPos.Add(new Vector2Int(x, y));
+        }
+
+        return topNewPos;
     }
 
     // x좌표 중복되는곳 제외
-    List<Vector2> FilterMultiplyPositionX(List<Vector2> positions)
+    List<Vector2Int> FilterMultiplyPositionX(List<Vector2Int> positions)
     {
-        // x좌표가 key값 Vector2 (x,y) 좌표가 Value
-        Dictionary<float, Vector2> uniquePositions = new Dictionary<float, Vector2>();
+        // x좌표가 key값 Vector2Int (x,y) 좌표가 Value
+        Dictionary<float, Vector2Int> uniquePositions = new Dictionary<float, Vector2Int>();
 
-        foreach (Vector2 pos in positions)
+        foreach (Vector2Int pos in positions)
         {
             // x좌표가 중복인지 확인
             if (uniquePositions.ContainsKey(pos.x))
@@ -113,12 +152,15 @@ public class GameInitializer : MonoBehaviour
     #region Player Random Pos Spawn Method
     private void PlayerRandomSpawn()
     {
+        // 랜덤 좌표 생성
         int randPosIndex = UnityEngine.Random.Range(0, _groundTopPos.Count);
+        float posX = _groundTopPos[randPosIndex].x;
+        float posY = _groundTopPos[randPosIndex].y;
+        Vector3 randSpawnPos = new Vector3(posX, posY);
 
         // TODO : Player가 선택한 탱크에 맞는 키값을 이용해서 알맞는 탱크 생성하기
         //          : 현재는 첫번째 탱크만 소환
-
-        GameObject go = Instantiate(_tankPrefabList[0], _groundTopPos[randPosIndex], Quaternion.identity);
+        GameObject go = Instantiate(_tankPrefabList[0], randSpawnPos, Quaternion.identity);
 
         // 중앙에서 오른쪽에 있다면 좌측을 바라보도록 뒤집기
         if(_groundTopPos[randPosIndex].x > 0)
@@ -127,7 +169,13 @@ public class GameInitializer : MonoBehaviour
         }
 
         // 중복 좌표에 생성 안되도록 제거
-        _groundTopPos.RemoveAt(randPosIndex);
+        int minRemoveIndex = Mathf.Max(0,randPosIndex - SPAWN_POS_REMOVE_RANGE);
+        int maxRemoveIndex = Mathf.Min(randPosIndex + SPAWN_POS_REMOVE_RANGE, _groundTopPos.Count-1);
+        
+        for (int i = maxRemoveIndex; i >= minRemoveIndex; i--)
+        {
+            _groundTopPos.RemoveAt(i);
+        }
     }
     #endregion
 }

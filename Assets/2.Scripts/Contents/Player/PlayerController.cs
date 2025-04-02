@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private const float DEAD_HEIGHT = -16f;  //  죽는 높이
     private const float MAX_POWER = 20f;
     private const float MIN_POWER = 0.1f;
 
@@ -42,6 +43,9 @@ public class PlayerController : MonoBehaviour
     private float _curGauge = 0f;
     private float _prevShellPower = 0f;           // 이전에 쏜 파워 값
 
+    private bool _isDead = false;                   // 죽음 확인    
+    private bool _bAfterDeadEvent = false;       // 죽음 이후 이벤트 한번만 실행하기 위한 bool
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -64,12 +68,27 @@ public class PlayerController : MonoBehaviour
             _predictionPoints[i] = Instantiate(_predictionPointPrefab, Vector3.zero, Quaternion.identity);
         }
 
+        _isDead = false;
+        _bAfterDeadEvent = false;
+
         HidePredictionsPoints();
     }
     // Update is called once per frame
 
     private void Update()
     {
+        if(CheckDead() == true)
+        {
+            // 죽음 이후 메소드 한번 실행
+            if(_bAfterDeadEvent == false)
+            {
+                _bAfterDeadEvent = true;
+                AfterDeadEvent();
+            }
+
+            return;
+        }
+
         // 포탄 변경
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -164,6 +183,24 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
             HidePredictionsPoints();
         }
+    }
+    
+    private bool CheckDead()
+    {
+
+        // 일정 높이에서 떨어지면 죽음 처리
+        if(transform.position.y <= DEAD_HEIGHT)
+        {
+            _isDead = true;
+        }
+
+        return _isDead;
+    }
+
+    private void AfterDeadEvent()
+    {
+        // 일단 destroy
+        Destroy(gameObject);
     }
 
     private Shell GenerationShell()

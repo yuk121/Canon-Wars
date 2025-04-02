@@ -164,14 +164,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mapPrefabList:
-  - {fileID: 1251306555834629565, guid: 5e74f552614064642844479e03501194, type: 3}
-  - {fileID: 347589170859399027, guid: 3d07a02f83c4c2e43b7bd05242b92743, type: 3}
-  - {fileID: 6175759008975810448, guid: c87771b9bc86ffb45853ca5f704256fc, type: 3}
+  - {fileID: 4310982639271103201, guid: bd27e44a5ef44bb43be68d2050f3d15a, type: 3}
   _mapGroundTextureList:
-  - {fileID: 2800000, guid: f87976d5889e2944ea2eec88029d7196, type: 3}
-  - {fileID: 2800000, guid: 4051d4be26e35df4083aaf389eef9aec, type: 3}
-  - {fileID: 2800000, guid: 86c6bd9e6cb2c424eb46a24739940a74, type: 3}
+  - {fileID: 2800000, guid: 4718af004ab9d47428524885a49261af, type: 3}
   _mapGroundPrefab: {fileID: 7806579868787359085, guid: af3738e0df4695943935fac817a35d8f, type: 3}
+  _mapSizeWidthRatio: 2.5
   _randGroundScaleMin: 0.5
   _randGroundScaleMax: 1.5
   _randGroundIntervalMin: 5
@@ -413,7 +410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1576353725
 Transform:
   m_ObjectHideFlags: 0
@@ -444,7 +441,7 @@ MonoBehaviour:
   _mapGenerator: {fileID: 439910501}
   _tankPrefabList:
   - {fileID: 739751645702610340, guid: 68be450ddd43b334192ae9c0cc5a4b33, type: 3}
-  _playerCount: 2
+  _playerCount: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
