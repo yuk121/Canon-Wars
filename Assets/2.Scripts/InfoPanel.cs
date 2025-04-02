@@ -28,10 +28,8 @@ public class InfoPanel : MonoBehaviour
 
     void Start()
     {
-        if (_fm == null)
-        {
-            _fm = FirebaseManager._instance;
-        }
+        _fm = FirebaseManager._instance;
+
         _applyBtn.onClick.AddListener(OnClickApply);
         _confirmBtn.onClick.AddListener(OnClickConfirm);
         foreach (Button btn in _closeBtns)
@@ -41,7 +39,9 @@ public class InfoPanel : MonoBehaviour
 
         InitUserData();
         InitTankData();
+        InitEquippedTankImage();
     }
+
     void InitUserData()
     {
         _nicknameText.text = _fm.userVO.NickName;
@@ -63,12 +63,9 @@ public class InfoPanel : MonoBehaviour
                 image.sprite = allTankDataList[i]._tankSprite;
                 image.gameObject.SetActive(true);
 
-                // 클릭 핸들러 자동 부착
                 TankSlotClickHandler handler = imageTransform.GetComponent<TankSlotClickHandler>();
                 if (handler == null)
-                {
                     handler = imageTransform.gameObject.AddComponent<TankSlotClickHandler>();
-                }
 
                 handler.slotIndex = i;
                 handler.infoPanel = this;
@@ -77,6 +74,15 @@ public class InfoPanel : MonoBehaviour
             {
                 tankSlots[i].gameObject.SetActive(false);
             }
+        }
+    }
+
+    void InitEquippedTankImage()
+    {
+        Sprite equippedSprite = TankUtil.GetTankSprite(_fm.userVO.NowTank);
+        if (equippedSprite != null)
+        {
+            _equippedTankImage.sprite = equippedSprite;
         }
     }
 
@@ -100,8 +106,10 @@ public class InfoPanel : MonoBehaviour
     {
         if (_selectedTank != null)
         {
-            _equippedTankImage.sprite = _selectedTank._tankSprite;
-            Debug.Log($" 탱크 장착 완료: {_selectedTank._tankName}");
+            _equippedTankImage.sprite = TankUtil.GetTankSprite(_selectedTank._tankName);
+            Debug.Log($"탱크 장착 완료: {_selectedTank._tankName}");
+
+            _fm.userVO.NowTank = _selectedTank._tankName;
         }
         else
         {
@@ -113,7 +121,7 @@ public class InfoPanel : MonoBehaviour
     {
         OnClickApply();
         gameObject.SetActive(false);
-        Debug.Log(" 확인 버튼 클릭");
+        Debug.Log("확인 버튼 클릭");
     }
 
     void OnClickClose()

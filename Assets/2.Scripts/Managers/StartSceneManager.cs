@@ -163,7 +163,7 @@ public class StartSceneManager : MonoBehaviour
         },
         delegate
         {
-            SceneFlowManager._instance.LoadScene("2.LobbyScene"); 
+            SceneManager.LoadScene("2.LobbyScene"); 
             //씬 전환 소스를 여기에 넣으면 됩니다.
             //로그인 되어서 VO Setting 후 다음 씬으로 넘어갑니다.
         });
