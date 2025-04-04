@@ -47,6 +47,13 @@ public class Ground : MonoBehaviour
         gameObject.AddComponent<PolygonCollider2D>();
     }
 
+    private void MakeSprtie()
+    {
+        float orignPPU = _spriteRenderer.sprite.pixelsPerUnit;
+        _spriteRenderer.sprite = Sprite.Create(_newTexture, new Rect(0, 0, _newTexture.width, _newTexture.height), Vector2.one * 0.5f, orignPPU);
+    }
+
+
     public void MakeDot(Vector3 pos)
     {
 
@@ -65,11 +72,14 @@ public class Ground : MonoBehaviour
     public void MakeHole(Vector3 pos, float radius)
     {
         // 월드 크기와 실제 오브젝트의 크기를 반영하여 픽셀 변환
-        float scaleFactorX = transform.localScale.x;
-        float scaleFactorY = transform.localScale.y;
+        //float scaleFactorX = transform.localScale.x;
+        //float scaleFactorY = transform.localScale.y;
 
-        int pixelRadiusX = Mathf.RoundToInt((radius / scaleFactorX) * (_pixelWidth / _worldWidth));
-        int pixelRadiusY = Mathf.RoundToInt((radius / scaleFactorY) * (_pixelHeight / _worldHeight));
+        //int pixelRadiusX = Mathf.RoundToInt((radius / scaleFactorX) * (_pixelWidth / _worldWidth));
+        //int pixelRadiusY = Mathf.RoundToInt((radius / scaleFactorY) * (_pixelHeight / _worldHeight));
+
+        int pixelRadiusX = Mathf.RoundToInt(radius * (_pixelWidth / _worldWidth));
+        int pixelRadiusY = Mathf.RoundToInt(radius * (_pixelWidth / _worldWidth));
 
         Vector2Int pixelPos = WorldToPixel(pos);
 
@@ -182,19 +192,13 @@ public class Ground : MonoBehaviour
                 break;
         }      
     }
-
-    private void MakeSprtie()
-    {
-        _spriteRenderer.sprite = Sprite.Create(_newTexture, new Rect(0, 0, _newTexture.width, _newTexture.height), Vector2.one * 0.5f);
-    }
-
     private Vector2Int WorldToPixel(Vector3 pos)
     {
         Vector2Int pixelPos = Vector2Int.zero;
 
         // Ground 오브젝트의 월드 영역을 구함 (localScale 반영)
-        float adjustedWorldWidth = _worldWidth * transform.localScale.x;
-        float adjustedWorldHeight = _worldHeight * transform.localScale.y;
+        float adjustedWorldWidth = _worldWidth; //* transform.localScale.x;
+        float adjustedWorldHeight = _worldHeight; //* transform.localScale.y;
 
         float minX = transform.position.x - (adjustedWorldWidth * 0.5f);
         float minY = transform.position.y - (adjustedWorldHeight * 0.5f);

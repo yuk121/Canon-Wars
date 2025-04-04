@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private float _prevShellPower = 0f;           // 이전에 쏜 파워 값
 
     private bool _isDead = false;                   // 죽음 확인    
+    private bool _isFire = false;
     private bool _bAfterDeadEvent = false;       // 죽음 이후 이벤트 한번만 실행하기 위한 bool
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -118,6 +119,9 @@ public class PlayerController : MonoBehaviour
         // 파워게이지 증가 시키기
         if (Input.GetKey(KeyCode.Space))
         {
+            if(_isFire == true)
+                _isFire = false;
+
             _curGauge += Time.deltaTime * _powerGaugeSpeed;
             _curShellPower = Mathf.Lerp(_minShellPower, _maxShellPower, _curGauge);
         }
@@ -125,6 +129,7 @@ public class PlayerController : MonoBehaviour
         // 포탄 발사
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            _isFire = true;
             _curGauge = 0f;
             Shell shell = GenerationShell();
 
@@ -140,6 +145,8 @@ public class PlayerController : MonoBehaviour
             _curShell = shell.gameObject;
             // 이전 포탄 파워 값 저장
             _prevShellPower = _curShellPower;
+
+            HidePredictionsPoints();
         }
 
         // 포 각도 조절
@@ -156,7 +163,10 @@ public class PlayerController : MonoBehaviour
         _artilleryTrans.localRotation = Quaternion.Lerp(_artilleryTrans.localRotation, quaternion, Time.deltaTime * 10);
 
         // 예측 지점 보여주기
-        ShowPredictionPoints(0.1f);
+        if (_isFire == false)
+        {
+            ShowPredictionPoints(0.1f);
+        }
 
         // 땅 위에 있는지 확인
         if (IsGround())

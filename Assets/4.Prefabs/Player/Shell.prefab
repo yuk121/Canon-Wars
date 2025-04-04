@@ -176,5 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosinType: 0
+  _debugConflictPoint: {fileID: 7611526432734126174, guid: 044c09bcaef1acb42aaf0be97aba2cf1, type: 3}
   _durtaion: 7
   _radius: 2.5

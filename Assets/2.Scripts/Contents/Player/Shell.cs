@@ -8,6 +8,7 @@ public enum eShellExplosionType
 public class Shell : MonoBehaviour
 {
     [SerializeField] private eShellExplosionType _explosinType;
+    [SerializeField] private Sprite _debugConflictPoint;
     public eShellExplosionType ShellExplosionType { get => _explosinType; }
     [SerializeField] private float _durtaion = 3.5f;        // 객체의 지속시간
     [SerializeField] protected float _radius = 2.5f;
@@ -104,11 +105,26 @@ public class Shell : MonoBehaviour
                 {
                     Ground ground = hitGround.GetComponent<Ground>();
                     ground.GroundExplosion(colliderCenter, _radius);
+
+                    // 디버그용 원 스프라이트 생성
+                    DebugExplosionCircle(colliderCenter, _radius);
                 }
             }
 
             // 충돌한 경우에만 Pool
             PoolManager.Instance.Push(gameObject);
         }
+    }
+
+    private void DebugExplosionCircle(Vector2 position, float radius)
+    {
+        GameObject debugCircle = new GameObject("ExplosionDebugCircle");
+        debugCircle.transform.position = position;
+        debugCircle.transform.localScale = Vector3.one * 0.3f;
+
+        SpriteRenderer sr = debugCircle.AddComponent<SpriteRenderer>();
+        sr.sprite = _debugConflictPoint; // "DebugCircle"은 미리 만들어 둔 원형 스프라이트
+        sr.color = new Color(1, 0, 0, 1); // 빨간색
+        sr.sortingOrder = 3;
     }
 }
