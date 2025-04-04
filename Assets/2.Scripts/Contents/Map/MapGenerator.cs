@@ -75,7 +75,7 @@ public class MapGenerator : MonoBehaviour
             // 땅 생성
             Ground ground = Instantiate(_mapGroundPrefab);
             ground.transform.parent = this.transform;
-            ground.Init(_mapGroundTextureList[(int)_mapType]);
+            //ground.Init(_mapGroundTextureList[(int)_mapType]);
 
             // 레이어 순서 조정
             SpriteRenderer sr = ground.GetComponent<SpriteRenderer>();

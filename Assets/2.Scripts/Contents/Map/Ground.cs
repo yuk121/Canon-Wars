@@ -5,6 +5,9 @@ using UnityEngine;
 public class Ground : MonoBehaviour
 { 
     [SerializeField] private Texture2D _srcTexture;
+    [SerializeField] private List<Transform> _spawnTransList = new List<Transform>();
+    public List<Transform> SpawnTransList { get => _spawnTransList; }
+
     private Texture2D _newTexture;
     private SpriteRenderer _spriteRenderer;
 
@@ -17,15 +20,15 @@ public class Ground : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Init();
+        //Init();
     }
 
-    public void Init(Texture2D texture = null)
+    public void Init()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
         // 텍스쳐 할당
-        //_srcTexture = texture;
+        _srcTexture = _spriteRenderer.sprite.texture;
 
         // sprite로 생성
         _newTexture = new Texture2D(_srcTexture.width, _srcTexture.height, TextureFormat.RGBA32, false);
