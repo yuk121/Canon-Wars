@@ -1,36 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 using System.Collections;
-using Firebase.Database;
-using Newtonsoft.Json;
 
-public class IngameManager : MonoBehaviour
+public class IngameManager : NetworkBehaviour
 {
     public static IngameManager Instance;
 
     [Header("UI")]
-    [SerializeField] private LoadingUIPlayerSlot playerSlotUI;
-    [SerializeField] private LoadingUIPlayerSlot enemySlotUI;
     [SerializeField] private GameObject loadingUI;
     [SerializeField] private Text timerText;
 
     [Header("게임 설정")]
-    [SerializeField] private float gameTime = 180f;
+    [SerializeField] private float totalGameTime = 180f;
     [SerializeField] private float turnTime = 10f;
 
-    private float remainingTime;
-    private float remainingTurnTime;
+    private NetworkVariable<float> gameTimer = new NetworkVariable<float>();
+    private NetworkVariable<ulong> currentTurnClientId = new NetworkVariable<ulong>();
 
-    private bool gameStarted = false;
-    private bool isMyTurn = true;
-
-    private int playerHP;
-    private int enemyHP;
-
-    private int playerATK;
-    private int enemyATK;
-
-    private string enemyNowTankKey;
+    private float turnTimer;
+    private bool isGameRunning = false;
 
     void Awake()
     {
@@ -40,158 +29,92 @@ public class IngameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        SetupPlayerSlot();
-
-        string enemyUID = MatchData.EnemyUID; // 서버 또는 매칭 시스템에서 받아야 함
-        StartCoroutine(LoadEnemyDataAndStart(enemyUID));
-    }
-
-    void SetupPlayerSlot()
-    {
-        var userData = FirebaseManager._instance.userVO;
-        Sprite tankSprite = TankUtil.GetTankSprite(userData.NowTank);
-        var (wins, losses) = TankUtil.GetWinLoss(userData.BattleInfos);
-
-        playerSlotUI.Setup(userData.NickName, tankSprite, wins, losses);
-    }
-
-    IEnumerator LoadEnemyDataAndStart(string enemyUID)
-    {
-        var dbRef = FirebaseDatabase.DefaultInstance
-            .GetReference("UserDataSeat")
-            .OrderByChild("UID")
-            .EqualTo(enemyUID)
-            .GetValueAsync();
-
-        yield return new WaitUntil(() => dbRef.IsCompleted);
-
-        if (dbRef.IsCompleted && dbRef.Result.Exists)
+        if (IsServer)
         {
-            foreach (var snapshot in dbRef.Result.Children)
-            {
-                string json = snapshot.GetRawJsonValue();
-                UserData enemyData = JsonConvert.DeserializeObject<UserData>(json);
-
-                enemyNowTankKey = enemyData.NowTank;
-
-                Sprite tankSprite = TankUtil.GetTankSprite(enemyNowTankKey);
-                var (wins, losses) = TankUtil.GetWinLoss(enemyData.BattleInfos);
-
-                enemySlotUI.Setup(enemyData.NickName, tankSprite, wins, losses);
-                break;
-            }
+            StartCoroutine(GameStartRoutine());
         }
 
-        yield return new WaitForSeconds(2f);
+        if (IsClient)
+        {
+            loadingUI.SetActive(true);
+            StartCoroutine(HideLoadingAfterDelay(2f));
+        }
+    }
 
-        playerSlotUI.SetLoaded();
-        enemySlotUI.SetLoaded();
+    IEnumerator GameStartRoutine()
+    {
+        yield return new WaitForSeconds(2f); // 연출 대기 등
 
-        yield return new WaitForSeconds(0.5f);
+        gameTimer.Value = totalGameTime;
+        currentTurnClientId.Value = NetworkManager.ConnectedClientsIds[0]; // 첫 턴은 호스트
+        isGameRunning = true;
+    }
+
+    IEnumerator HideLoadingAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         loadingUI.SetActive(false);
-
-        StartGameplay();
-    }
-
-    void StartGameplay()
-    {
-        Debug.Log("게임 시작!");
-        gameStarted = true;
-        remainingTime = gameTime;
-        remainingTurnTime = turnTime;
-
-        // 탱크 스탯 반영
-        var myTank = TankUtil.GetTankData(FirebaseManager._instance.userVO.NowTank);
-        var enemyTank = TankUtil.GetTankData(enemyNowTankKey);
-
-        if (myTank != null)
-        {
-            playerHP = myTank._hp;
-            playerATK = myTank._atk;
-        }
-
-        if (enemyTank != null)
-        {
-            enemyHP = enemyTank._hp;
-            enemyATK = enemyTank._atk;
-        }
-
-        StartTurn();
     }
 
     void Update()
     {
-        if (!gameStarted) return;
+        if (!IsServer || !isGameRunning) return;
 
-        remainingTime -= Time.deltaTime;
-        timerText.text = FormatTime(remainingTime);
+        gameTimer.Value -= Time.deltaTime;
+        turnTimer -= Time.deltaTime;
 
-        if (remainingTime <= 0f)
+        if (gameTimer.Value <= 0f)
         {
             EndGame();
         }
 
-        HandleTurnTimer();
-    }
-
-    void HandleTurnTimer()
-    {
-        if (!gameStarted) return;
-
-        remainingTurnTime -= Time.deltaTime;
-
-        if (remainingTurnTime <= 0f)
+        if (turnTimer <= 0f)
         {
-            EndTurn();
+            ChangeTurn();
         }
     }
 
-    void StartTurn()
+    void ChangeTurn()
     {
-        remainingTurnTime = turnTime;
-        Debug.Log(isMyTurn ? "내 턴 시작" : "상대 턴 시작");
-        // TODO: 턴에 따라 입력 활성화, AI 등 처리
+        foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            if (clientId != currentTurnClientId.Value)
+            {
+                currentTurnClientId.Value = clientId;
+                break;
+            }
+        }
+
+        turnTimer = turnTime;
+        SendTurnChangedClientRpc(currentTurnClientId.Value);
     }
 
-    void EndTurn()
+    [ClientRpc]
+    void SendTurnChangedClientRpc(ulong newTurnClientId)
     {
-        isMyTurn = !isMyTurn;
-        StartTurn();
-    }
-
-    public void TakeDamage(bool isEnemy, int damage)
-    {
-        if (isEnemy)
-            enemyHP -= damage;
+        if (NetworkManager.Singleton.LocalClientId == newTurnClientId)
+        {
+            Debug.Log("내 턴입니다!");
+            // 입력 활성화
+        }
         else
-            playerHP -= damage;
-
-        Debug.Log($"{(isEnemy ? "적" : "플레이어")} 체력 감소: {damage}");
-
-        if (playerHP <= 0 || enemyHP <= 0)
         {
-            EndGame();
+            Debug.Log("상대 턴입니다.");
+            // 입력 비활성화
         }
-    }
-
-    string FormatTime(float time)
-    {
-        int minutes = Mathf.FloorToInt(time / 60f);
-        int seconds = Mathf.FloorToInt(time % 60f);
-        return $"{minutes:00}:{seconds:00}";
     }
 
     void EndGame()
     {
+        isGameRunning = false;
         Debug.Log("게임 종료!");
-        gameStarted = false;
-        // TODO: 결과 화면 처리, 데이터 저장 등
+        // 승패 판정 및 결과 전송 등
     }
-}
 
-public static class MatchData
-{
-    public static string EnemyUID;
+    public bool IsMyTurn()
+    {
+        return currentTurnClientId.Value == NetworkManager.Singleton.LocalClientId;
+    }
 }

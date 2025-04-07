@@ -201,6 +201,7 @@ public class FirebaseManager : MonoBehaviour
             userVO.UID = tempUserData.UID;
             userVO.UserID = tempUserData.UserID;
             userVO.UserPW = tempUserData.UserPW;
+            userVO.NickName = tempUserData.NickName;
         }
 
         //user battleinfoseat에서 유저 정보 찾기.
