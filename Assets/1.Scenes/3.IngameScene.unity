@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 1304706981}
   - component: {fileID: 1304706980}
   - component: {fileID: 1304706983}
+  - component: {fileID: 1304706984}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -206,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 1304706979}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: -10}
+  m_LocalPosition: {x: 0, y: 6.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -256,6 +257,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1304706984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304706979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be167527fcf8e347b836ba473e244ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1723605185
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,10 +303,14 @@ MonoBehaviour:
   - {fileID: 4310982639271103201, guid: bd27e44a5ef44bb43be68d2050f3d15a, type: 3}
   - {fileID: 6782360675606500565, guid: a9b8aceec3e4e1e4291837c8a1f588f9, type: 3}
   - {fileID: 6737891220465029019, guid: 4bf4e4c546fb5da42b67ce4277a4fb15, type: 3}
+  - {fileID: 6737891220465029019, guid: ab814a69a335e9f45bea49a894e11585, type: 3}
+  - {fileID: 6737891220465029019, guid: 73d8c603026f15c47995c62fc614f358, type: 3}
   _mapForegroundList:
   - {fileID: 849625363689414859, guid: 7c3531af022c8e34f9f008247f9d3baa, type: 3}
   - {fileID: 849625363689414859, guid: b8291bbc91fe7d74799fc613a7a18858, type: 3}
   - {fileID: 6621850961787451848, guid: 7a1c7ae3d8f8ad441beb91b2a770e1ac, type: 3}
+  - {fileID: 6621850961787451848, guid: b77c128047ebf2349afff4845399eee5, type: 3}
+  - {fileID: 6621850961787451848, guid: 8191de322ea531a419a716fe2df907f1, type: 3}
 --- !u!4 &1723605187
 Transform:
   m_ObjectHideFlags: 0
@@ -324,7 +341,7 @@ MonoBehaviour:
   _mapSpawner: {fileID: 1723605186}
   _tankPrefabList:
   - {fileID: 739751645702610340, guid: 68be450ddd43b334192ae9c0cc5a4b33, type: 3}
-  _selectedMapType: -1
+  _selectedMapType: 4
   _playerCount: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

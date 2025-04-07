@@ -7,6 +7,11 @@ public enum eShellExplosionType
 }
 public class Shell : MonoBehaviour
 {
+    [Header("Camera Shake")]
+    [SerializeField] private float _shakeDurtaion = 0.5f;
+    [SerializeField] private float _shakeMagnitude = 1f;
+
+    [Header("Shell Info")]
     [SerializeField] private eShellExplosionType _explosinType;
     public eShellExplosionType ShellExplosionType { get => _explosinType; }
 
@@ -97,6 +102,9 @@ public class Shell : MonoBehaviour
             // 파티클 생성
             CreateExplosionParticle();
 
+            // 카메라 흔들림
+            CamShake();
+
             // CircleCast를 사용하여 폭발 범위에 있는 객체 List 가져오기
             Collider2D[] hitPlayerList = Physics2D.OverlapCircleAll(colliderCenter, _radius, LayerMask.GetMask("Player"));
             Collider2D[] hitGroundList = Physics2D.OverlapCircleAll(colliderCenter, _radius, LayerMask.GetMask("Ground"));
@@ -139,6 +147,16 @@ public class Shell : MonoBehaviour
             ParticleSystem particle = go.GetComponent<ParticleSystem>();
             particle.Play();
         }
+    }
+
+    protected void CamShake()
+    {
+        CameraShake camShake = Camera.main.GetComponent<CameraShake>();
+       
+        if (camShake == null)
+            return;
+
+        camShake.Shake(_shakeDurtaion, _shakeMagnitude);
     }
 
     //private void DebugExplosionCircle(Vector2 position, float radius)

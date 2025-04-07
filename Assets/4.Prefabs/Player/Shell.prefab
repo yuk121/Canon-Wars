@@ -175,6 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8743eb704890a7e40a8d9d1ad43e21b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shakeDurtaion: 0.5
+  _shakeMagnitude: 0.15
   _explosinType: 0
   _explosionParticlePrefab: {fileID: 3434388923942782876, guid: e9440a633c70223458a0020a97c7e84b, type: 3}
   _durtaion: 7

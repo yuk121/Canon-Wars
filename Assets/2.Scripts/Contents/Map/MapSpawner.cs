@@ -7,6 +7,8 @@ public enum eMapType
     Valley,
     Forest,
     City,
+    DesertTemple,
+    Max
 }
 public class MapSpawner : MonoBehaviour
 {
@@ -21,7 +23,7 @@ public class MapSpawner : MonoBehaviour
         if (eSelectMap == eMapType.Random)
         {
             // 랜덤으로 맵을 선택한 경우
-            _seletedMapIndex = Random.Range((int)eMapType.Valley, (int)eMapType.City);
+            _seletedMapIndex = Random.Range((int)eMapType.Valley, (int)eMapType.Max);
         }
         else
         {
