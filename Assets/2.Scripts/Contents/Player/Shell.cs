@@ -8,10 +8,13 @@ public enum eShellExplosionType
 public class Shell : MonoBehaviour
 {
     [SerializeField] private eShellExplosionType _explosinType;
-    [SerializeField] private Sprite _debugConflictPoint;
     public eShellExplosionType ShellExplosionType { get => _explosinType; }
+
+    [SerializeField] private GameObject _explosionParticlePrefab = null;
     [SerializeField] private float _durtaion = 3.5f;        // 객체의 지속시간
     [SerializeField] protected float _radius = 2.5f;
+    
+    //[SerializeField] private Sprite _debugConflictPoint;
 
     private Rigidbody2D _rb2D = null;
     protected BoxCollider2D _collider2D = null;
@@ -83,7 +86,7 @@ public class Shell : MonoBehaviour
 
         // BoxCollider2D의 중심과 크기를 가져오기
         Vector2 colliderCenter = (Vector2)transform.position + _collider2D.offset;
-        Vector2 colliderSize = _collider2D.size+(Vector2.one * 0.05f);
+        Vector2 colliderSize = _collider2D.size;
 
         // BoxCast를 사용하여 플레이어 또는 땅의 충돌 감지
         RaycastHit2D hit = Physics2D.BoxCast(colliderCenter, colliderSize, transform.eulerAngles.z, Vector2.down, 0f, LayerMask.GetMask("Player", "Ground"));
@@ -91,6 +94,9 @@ public class Shell : MonoBehaviour
         // 충돌 확인 시
         if (hit.collider != null)
         {
+            // 파티클 생성
+            CreateExplosionParticle();
+
             // CircleCast를 사용하여 폭발 범위에 있는 객체 List 가져오기
             Collider2D[] hitPlayerList = Physics2D.OverlapCircleAll(colliderCenter, _radius, LayerMask.GetMask("Player"));
             Collider2D[] hitGroundList = Physics2D.OverlapCircleAll(colliderCenter, _radius, LayerMask.GetMask("Ground"));
@@ -107,7 +113,7 @@ public class Shell : MonoBehaviour
                     ground.GroundExplosion(colliderCenter, _radius);
 
                     // 디버그용 원 스프라이트 생성
-                    DebugExplosionCircle(colliderCenter, _radius);
+                    //DebugExplosionCircle(colliderCenter, _radius);
                 }
             }
 
@@ -116,15 +122,34 @@ public class Shell : MonoBehaviour
         }
     }
 
-    private void DebugExplosionCircle(Vector2 position, float radius)
+    protected void CreateExplosionParticle()
     {
-        GameObject debugCircle = new GameObject("ExplosionDebugCircle");
-        debugCircle.transform.position = position;
-        debugCircle.transform.localScale = Vector3.one * 0.3f;
+        // 폭발 파티클 재생
+        if (_explosionParticlePrefab != null)
+        {
+            GameObject go = PoolManager.Instance.Pop(_explosionParticlePrefab);
 
-        SpriteRenderer sr = debugCircle.AddComponent<SpriteRenderer>();
-        sr.sprite = _debugConflictPoint; // "DebugCircle"은 미리 만들어 둔 원형 스프라이트
-        sr.color = new Color(1, 0, 0, 1); // 빨간색
-        sr.sortingOrder = 3;
+            if (go == null)
+            {
+                go = Instantiate(_explosionParticlePrefab);
+                PoolManager.Instance.Push(go);
+            }
+            go.transform.position = transform.position;
+
+            ParticleSystem particle = go.GetComponent<ParticleSystem>();
+            particle.Play();
+        }
     }
+
+    //private void DebugExplosionCircle(Vector2 position, float radius)
+    //{
+    //    GameObject debugCircle = new GameObject("ExplosionDebugCircle");
+    //    debugCircle.transform.position = position;
+    //    debugCircle.transform.localScale = Vector3.one * 0.3f;
+
+    //    SpriteRenderer sr = debugCircle.AddComponent<SpriteRenderer>();
+    //    sr.sprite = _debugConflictPoint; // "DebugCircle"은 미리 만들어 둔 원형 스프라이트
+    //    sr.color = new Color(1, 0, 0, 1); // 빨간색
+    //    sr.sortingOrder = 3;
+    //}
 }

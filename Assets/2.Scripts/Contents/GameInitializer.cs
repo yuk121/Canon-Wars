@@ -48,10 +48,15 @@ public class GameInitializer : MonoBehaviour
             PlayerController player = go.GetComponent<PlayerController>();
             player.Init();
 
+            // x좌표가 0보다 큰 경우 우측을 바라보도록
+            if (player.transform.position.x > 0)
+            {
+                player.Flip(-1);
+            }
+
             // 뽑힌 자리는 랜덤 좌표 목록에서 제거
             posList.RemoveAt(randPosIndex);
         }
-
     }
 
     //#region Ground Top Pos Find Method

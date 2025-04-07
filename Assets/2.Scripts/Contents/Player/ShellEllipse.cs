@@ -21,6 +21,9 @@ public class ShellEllipse : Shell
         // 충돌 확인 시 
         if (hit.collider != null)
         {
+            // 파티클 재생
+            CreateExplosionParticle();
+
             // 현재 원 모양 상태로 폭발범위 닿는곳을 가져옴
             float radiusY = _radius / _radiusYRatio;
             Collider2D[] hitAllPlayerList = Physics2D.OverlapCircleAll(colliderCenter, Mathf.Max(_radius, radiusY), LayerMask.GetMask("Player"));
