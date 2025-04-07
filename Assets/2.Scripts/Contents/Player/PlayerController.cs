@@ -179,9 +179,8 @@ public class PlayerController : MonoBehaviour
 
             if (_dirX != 0f)
             {
-                Vector3 newScale = transform.localScale;
-                newScale.x = Mathf.Abs(newScale.x) * Mathf.Sign(_dirX); // 좌우 반전
-                transform.localScale = newScale;
+                // 좌우 반전
+                Flip(_dirX);
 
                 // 이동중에 예측지점 숨기기
                 HidePredictionsPoints();
@@ -193,6 +192,13 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
             HidePredictionsPoints();
         }
+    }
+
+    public void Flip(float dirX)
+    {
+        Vector3 newScale = transform.localScale;
+        newScale.x = Mathf.Abs(newScale.x) * Mathf.Sign(dirX); // 좌우 반전
+        transform.localScale = newScale;
     }
     
     private bool CheckDead()

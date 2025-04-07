@@ -324,7 +324,7 @@ MonoBehaviour:
   _mapSpawner: {fileID: 1723605186}
   _tankPrefabList:
   - {fileID: 739751645702610340, guid: 68be450ddd43b334192ae9c0cc5a4b33, type: 3}
-  _selectedMapType: 2
+  _selectedMapType: -1
   _playerCount: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

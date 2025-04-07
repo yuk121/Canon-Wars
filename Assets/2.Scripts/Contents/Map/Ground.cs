@@ -71,15 +71,8 @@ public class Ground : MonoBehaviour
 
     public void MakeHole(Vector3 pos, float radius)
     {
-        // 월드 크기와 실제 오브젝트의 크기를 반영하여 픽셀 변환
-        //float scaleFactorX = transform.localScale.x;
-        //float scaleFactorY = transform.localScale.y;
-
-        //int pixelRadiusX = Mathf.RoundToInt((radius / scaleFactorX) * (_pixelWidth / _worldWidth));
-        //int pixelRadiusY = Mathf.RoundToInt((radius / scaleFactorY) * (_pixelHeight / _worldHeight));
-
         int pixelRadiusX = Mathf.RoundToInt(radius * (_pixelWidth / _worldWidth));
-        int pixelRadiusY = Mathf.RoundToInt(radius * (_pixelWidth / _worldWidth));
+        int pixelRadiusY = Mathf.RoundToInt(radius * (_pixelHeight / _worldHeight));
 
         Vector2Int pixelPos = WorldToPixel(pos);
 
@@ -87,7 +80,7 @@ public class Ground : MonoBehaviour
 
         for (int i = 0; i <= pixelRadiusX; i++)
         {
-            dis = Mathf.RoundToInt(Mathf.Sqrt(pixelRadiusY * pixelRadiusY * (1 - (i * i) / (float)(pixelRadiusX * pixelRadiusX))));
+            dis = Mathf.RoundToInt(Mathf.Sqrt(1 - (i * i) / (float)(pixelRadiusX * pixelRadiusX)) * pixelRadiusY);
             for (int j =0; j <= dis; j++)
             {
                 px = pixelPos.x + i;
@@ -121,11 +114,11 @@ public class Ground : MonoBehaviour
 
     public void MakeHoleEllipse(Vector3 pos, float radiusX, float radiusY)
     {
-        float scaleFactorX = transform.localScale.x;
-        float scaleFactorY = transform.localScale.y;
+        //float scaleFactorX = transform.localScale.x;
+        //float scaleFactorY = transform.localScale.y;
 
-        int pixelRadiusX = Mathf.RoundToInt((radiusX / scaleFactorX) * (_pixelWidth / _worldWidth));
-        int pixelRadiusY = Mathf.RoundToInt((radiusY / scaleFactorY) * (_pixelHeight / _worldHeight));
+        int pixelRadiusX = Mathf.RoundToInt((radiusX) * (_pixelWidth / _worldWidth));
+        int pixelRadiusY = Mathf.RoundToInt((radiusY) * (_pixelHeight / _worldHeight));
 
         Vector2Int colliderCenter = WorldToPixel(pos);
 
