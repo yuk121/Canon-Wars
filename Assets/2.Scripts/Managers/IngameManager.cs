@@ -16,9 +16,21 @@ public class IngameManager : MonoBehaviour
 
     [Header("게임 설정")]
     [SerializeField] private float gameTime = 180f;
+    [SerializeField] private float turnTime = 10f;
 
     private float remainingTime;
+    private float remainingTurnTime;
+
     private bool gameStarted = false;
+    private bool isMyTurn = true;
+
+    private int playerHP;
+    private int enemyHP;
+
+    private int playerATK;
+    private int enemyATK;
+
+    private string enemyNowTankKey;
 
     void Awake()
     {
@@ -62,7 +74,9 @@ public class IngameManager : MonoBehaviour
                 string json = snapshot.GetRawJsonValue();
                 UserData enemyData = JsonConvert.DeserializeObject<UserData>(json);
 
-                Sprite tankSprite = TankUtil.GetTankSprite(enemyData.NowTank);
+                enemyNowTankKey = enemyData.NowTank;
+
+                Sprite tankSprite = TankUtil.GetTankSprite(enemyNowTankKey);
                 var (wins, losses) = TankUtil.GetWinLoss(enemyData.BattleInfos);
 
                 enemySlotUI.Setup(enemyData.NickName, tankSprite, wins, losses);
@@ -86,6 +100,25 @@ public class IngameManager : MonoBehaviour
         Debug.Log("게임 시작!");
         gameStarted = true;
         remainingTime = gameTime;
+        remainingTurnTime = turnTime;
+
+        // 탱크 스탯 반영
+        var myTank = TankUtil.GetTankData(FirebaseManager._instance.userVO.NowTank);
+        var enemyTank = TankUtil.GetTankData(enemyNowTankKey);
+
+        if (myTank != null)
+        {
+            playerHP = myTank._hp;
+            playerATK = myTank._atk;
+        }
+
+        if (enemyTank != null)
+        {
+            enemyHP = enemyTank._hp;
+            enemyATK = enemyTank._atk;
+        }
+
+        StartTurn();
     }
 
     void Update()
@@ -96,6 +129,48 @@ public class IngameManager : MonoBehaviour
         timerText.text = FormatTime(remainingTime);
 
         if (remainingTime <= 0f)
+        {
+            EndGame();
+        }
+
+        HandleTurnTimer();
+    }
+
+    void HandleTurnTimer()
+    {
+        if (!gameStarted) return;
+
+        remainingTurnTime -= Time.deltaTime;
+
+        if (remainingTurnTime <= 0f)
+        {
+            EndTurn();
+        }
+    }
+
+    void StartTurn()
+    {
+        remainingTurnTime = turnTime;
+        Debug.Log(isMyTurn ? "내 턴 시작" : "상대 턴 시작");
+        // TODO: 턴에 따라 입력 활성화, AI 등 처리
+    }
+
+    void EndTurn()
+    {
+        isMyTurn = !isMyTurn;
+        StartTurn();
+    }
+
+    public void TakeDamage(bool isEnemy, int damage)
+    {
+        if (isEnemy)
+            enemyHP -= damage;
+        else
+            playerHP -= damage;
+
+        Debug.Log($"{(isEnemy ? "적" : "플레이어")} 체력 감소: {damage}");
+
+        if (playerHP <= 0 || enemyHP <= 0)
         {
             EndGame();
         }
@@ -112,11 +187,11 @@ public class IngameManager : MonoBehaviour
     {
         Debug.Log("게임 종료!");
         gameStarted = false;
-        // 결과 처리 등 추가 예정
+        // TODO: 결과 화면 처리, 데이터 저장 등
     }
 }
 
 public static class MatchData
 {
-    public static string EnemyUID; // 실제 매칭 시 서버에서 받은 UID 세팅
+    public static string EnemyUID;
 }
