@@ -6,10 +6,26 @@ using UnityEngine;
 
 public class GameInitializer : MonoBehaviour
 {
+    #region 임시 싱글턴
+    public static GameInitializer Instance;
+    private void Awake()
+    {
+        if(Instance == null)
+            Instance = this;
+    }
+    #endregion
+
+
     [SerializeField] private MapSpawner _mapSpawner;
     [SerializeField] private List<GameObject> _tankPrefabList;
     [SerializeField] private eMapType _selectedMapType = eMapType.Random;
-    [SerializeField] private float _playerCount = 0;
+    [SerializeField] private int _playerCount = 0;
+    
+    private List<PlayerController> _playerList = new List<PlayerController>();
+
+    private int _curTurnPlayerIndex = 0;
+    public PlayerController  CurTurnPlayer { get => _playerList[_curTurnPlayerIndex]; }
+    public Transform CurShellTrans { get;  set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,8 +38,18 @@ public class GameInitializer : MonoBehaviour
         // 선택한 맵 생성
         _mapSpawner.SpawnSelectMap(_selectedMapType);
 
+        if(_playerCount == 0)
+        {
+            Debug.Log("No Player");
+            return;
+        }
+
         // 캐릭터 랜덤 스폰 좌표 배치
         PlayerRandomPosSpawn();
+
+        // 랜덤 순서로 턴 시작
+        _curTurnPlayerIndex = UnityEngine.Random.Range(0, _playerCount);
+        CurTurnPlayer.IsMyTurn();
 
         if (pCallback != null)
             pCallback.Invoke();
@@ -43,6 +69,7 @@ public class GameInitializer : MonoBehaviour
             // 임시로 0번째 프리팹 생성
             Vector2 randPos = (Vector2)posList[randPosIndex];
             GameObject go = Instantiate(_tankPrefabList[0], randPos, Quaternion.identity);
+            go.name = $"Player {i}";
 
             // 플레이어 초기화
             PlayerController player = go.GetComponent<PlayerController>();
@@ -54,9 +81,27 @@ public class GameInitializer : MonoBehaviour
                 player.Flip(-1);
             }
 
+            _playerList.Add(player);    
+
             // 뽑힌 자리는 랜덤 좌표 목록에서 제거
             posList.RemoveAt(randPosIndex);
         }
+    }
+
+    public void PlayerTurnEnd()
+    {
+        // 턴 인덱스 증가
+        int nextIndex = (_curTurnPlayerIndex + 1) % _playerCount;
+        _curTurnPlayerIndex = nextIndex;
+
+        Debug.Log($"Now Turn Player : {CurTurnPlayer.name}");
+        // 다음 플레이어 턴 시작
+        CurTurnPlayer.IsMyTurn();
+    }
+
+    public Vector2 GetMapSize()
+    {
+        return _mapSpawner.GetMapSize();
     }
 
     //#region Ground Top Pos Find Method
@@ -184,7 +229,7 @@ public class GameInitializer : MonoBehaviour
     //    // 중복 좌표에 생성 안되도록 제거
     //    int minRemoveIndex = Mathf.Max(0,randPosIndex - SPAWN_POS_REMOVE_RANGE);
     //    int maxRemoveIndex = Mathf.Min(randPosIndex + SPAWN_POS_REMOVE_RANGE, _groundTopPos.Count-1);
-        
+
     //    for (int i = maxRemoveIndex; i >= minRemoveIndex; i--)
     //    {
     //        _groundTopPos.RemoveAt(i);

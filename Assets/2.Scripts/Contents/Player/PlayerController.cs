@@ -7,8 +7,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private const float DEAD_HEIGHT = -16f;  //  죽는 높이
-    private const float MAX_POWER = 20f;
-    private const float MIN_POWER = 0.1f;
+    private const float GRAVITY_SCALE_GROUND = 10f;
+    private const float GRAVITY_SCALE_AERIAL = 1f;
 
     [Header("Body")]
     [SerializeField] private float _moveAngleThreshold = 70f;
@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviour
     private bool _isFire = false;
     private bool _bAfterDeadEvent = false;       // 죽음 이후 이벤트 한번만 실행하기 위한 bool
 
+    private bool _isMyTurn = false;
+    private bool _isCanFire = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -67,10 +70,12 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < _predictionPointNum; i++)
         {
             _predictionPoints[i] = Instantiate(_predictionPointPrefab, Vector3.zero, Quaternion.identity);
+            _predictionPoints[i].transform.parent = this.transform;
         }
 
         _isDead = false;
         _bAfterDeadEvent = false;
+        _isMyTurn = false;
 
         HidePredictionsPoints();
     }
@@ -78,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
         if(CheckDead() == true)
         {
             // 죽음 이후 메소드 한번 실행
@@ -89,6 +95,10 @@ public class PlayerController : MonoBehaviour
 
             return;
         }
+
+        // 내 턴일 경우에만 움직임
+        if (_isMyTurn == false)
+            return;
 
         // 포탄 변경
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -141,12 +151,17 @@ public class PlayerController : MonoBehaviour
             // 발사
             shell.Fire(_curShellPower);
 
+            // 포탄 위치 정보 건네주기
+            GameInitializer.Instance.CurShellTrans = shell.transform;
+
             // 발사한 포탄 저장
             _curShell = shell.gameObject;
             // 이전 포탄 파워 값 저장
             _prevShellPower = _curShellPower;
 
             HidePredictionsPoints();
+
+            _isCanFire = false;
         }
 
         // 포 각도 조절
@@ -179,6 +194,9 @@ public class PlayerController : MonoBehaviour
 
             if (_dirX != 0f)
             {
+                // 땅에서는 중력 강하게
+                _rb2D.gravityScale = GRAVITY_SCALE_GROUND;
+
                 // 좌우 반전
                 Flip(_dirX);
 
@@ -188,9 +206,21 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // 공중에서 중력 원상태로
+            _rb2D.gravityScale = GRAVITY_SCALE_AERIAL;
+            
             // 공중일땐 수평 
             transform.rotation = Quaternion.Euler(0, 0, 0);
             HidePredictionsPoints();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        // Input 문제로 인해 LateUpdate에서 확인
+        if(_isMyTurn == true && _isCanFire == false)
+        {
+            EndTurn();
         }
     }
 
@@ -201,6 +231,19 @@ public class PlayerController : MonoBehaviour
         transform.localScale = newScale;
     }
     
+    public void IsMyTurn()
+    {
+        _isMyTurn = true;
+        _isCanFire = true;
+    }
+
+    private void EndTurn()
+    {
+        _isMyTurn = false;
+        // TODO : 임시이므로 나중에 게임매니저에게 알려주기
+        GameInitializer.Instance.PlayerTurnEnd();
+    }
+
     private bool CheckDead()
     {
 
@@ -331,6 +374,10 @@ public class PlayerController : MonoBehaviour
 
     private void ShowPredictionPoints(float time)
     {
+        // 내턴이 아니라면 안보여줌
+        if (_isMyTurn == false)
+            return;
+
         for(int i = 0; i < _predictionPointNum; i++)
         {
             _predictionPoints[i].transform.position = PredictionPointsPos(i * time);

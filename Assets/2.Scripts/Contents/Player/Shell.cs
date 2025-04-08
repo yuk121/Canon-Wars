@@ -125,6 +125,9 @@ public class Shell : MonoBehaviour
                 }
             }
 
+            // 카메라가 더이상 포탄을 안따라가도록
+            GameInitializer.Instance.CurShellTrans = null;
+
             // 충돌한 경우에만 Pool
             PoolManager.Instance.Push(gameObject);
         }
@@ -157,6 +160,11 @@ public class Shell : MonoBehaviour
             return;
 
         camShake.Shake(_shakeDurtaion, _shakeMagnitude);
+    }
+
+    protected void LateUpdate()
+    {
+        // TODO : 포탄이 맵 범위 밖으로 나갔는지 확인후 나갔다면 포탄 삭제하기
     }
 
     //private void DebugExplosionCircle(Vector2 position, float radius)

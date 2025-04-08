@@ -12,6 +12,11 @@ public enum eMapType
 }
 public class MapSpawner : MonoBehaviour
 {
+    [Header("Map Setting")]
+    [SerializeField] private float _mapSizeWidth = 0f;
+    [SerializeField] private float _mapSizeHeight = 0f;
+
+    [Header("Map Prefab")]
     [SerializeField] private List<GameObject> _mapBackgroundList = new List<GameObject>();
     [SerializeField] private List<GameObject> _mapForegroundList = new List<GameObject>();
 
@@ -48,5 +53,10 @@ public class MapSpawner : MonoBehaviour
         }
 
         return posList;
+    }
+
+    public Vector2 GetMapSize()
+    {
+        return new Vector2(_mapSizeWidth, _mapSizeHeight);
     }
 }
