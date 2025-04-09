@@ -1,30 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum eMapType
-{
-    Random = -1,
-    Valley,
-    Forest,
-    City,
-    DesertTemple,
-    Max
-}
+
 public class MapSpawner : MonoBehaviour
 {
-    [Header("Map Setting")]
-    [SerializeField] private float _mapSizeWidth = 0f;
-    [SerializeField] private float _mapSizeHeight = 0f;
+    [Header("Map Data List")]
+    [SerializeField] private List<MapData> _mapDataList = new List<MapData>();
 
-    [Header("Map Prefab")]
-    [SerializeField] private List<GameObject> _mapBackgroundList = new List<GameObject>();
-    [SerializeField] private List<GameObject> _mapForegroundList = new List<GameObject>();
-
+    private MapData _curMap = null;
     private Ground _selectedGround = null;
     private int _seletedMapIndex = 0;
 
     public void SpawnSelectMap(eMapType eSelectMap)
     {
+        _curMap = null;
+
         if (eSelectMap == eMapType.Random)
         {
             // 랜덤으로 맵을 선택한 경우
@@ -34,10 +24,14 @@ public class MapSpawner : MonoBehaviour
         {
             _seletedMapIndex = (int)eSelectMap;
         }
-           
-        // 랜덤으로 맵 선택
-        Instantiate(_mapBackgroundList[_seletedMapIndex]);
-        GameObject goFore = Instantiate(_mapForegroundList[_seletedMapIndex]);
+
+        // 맵 데이터를 통해서 생성
+        _curMap = _mapDataList[_seletedMapIndex];
+
+        // 후경 생성
+        Instantiate(_curMap.backgroundPrefab);
+        // 전경 생성
+        GameObject goFore = Instantiate(_curMap.foregroundPrefab);
 
         _selectedGround = goFore.GetComponent<Ground>();
         _selectedGround.Init();
@@ -57,6 +51,22 @@ public class MapSpawner : MonoBehaviour
 
     public Vector2 GetMapSize()
     {
-        return new Vector2(_mapSizeWidth, _mapSizeHeight);
+        return _curMap.mapSize;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+
+        // 중심 좌표 (현재 오브젝트 위치 기준)
+        Vector3 center = transform.position;
+
+        if(_curMap != null)
+        {
+            // Z축은 0으로 고정, X와 Y만 사용
+            Vector3 size = new Vector3(_curMap.mapSize.x, _curMap.mapSize.y, 0f);
+
+            Gizmos.DrawWireCube(center, size);
+        }
     }
 }

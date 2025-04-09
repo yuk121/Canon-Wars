@@ -28,10 +28,12 @@ public class Shell : MonoBehaviour
     private float _power = 1f;
     private bool _isFire = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected virtual void Start()
+    public void Init()
     {
         _collider2D = GetComponent<BoxCollider2D>();
+        _rb2D = GetComponent<Rigidbody2D>();
+        _isFire = false;
+        _endTime = Time.time + _durtaion;
     }
 
     public void FixedUpdate()
@@ -71,12 +73,24 @@ public class Shell : MonoBehaviour
             }
         }
     }
-
-    public void Init()
+    protected void LateUpdate()
     {
-        _rb2D = GetComponent<Rigidbody2D>();
-        _isFire = false;
-        _endTime = Time.time + _durtaion;
+        // 포탄이 맵 밖으로 나갔는지 확인
+        CheckShellMapOut();
+    }
+
+    private void CheckShellMapOut()
+    {
+        if (GameInitializer.Instance == null || GameInitializer.Instance.GetMapSize() == Vector2.zero)
+            return;
+
+        Vector2 mapSize = GameInitializer.Instance.GetMapSize();
+
+        // 포탄이 양 옆, 하단을 넘어갔는지 확인하기 (위는 제외)
+        if(transform.position.x < -mapSize.x / 2f || transform.position.x > mapSize.x / 2f || transform.position.y < -mapSize.y / 2f)
+        {
+            ReleaseShell();
+        }    
     }
 
     public void Fire(float power)
@@ -125,12 +139,17 @@ public class Shell : MonoBehaviour
                 }
             }
 
-            // 카메라가 더이상 포탄을 안따라가도록
-            GameInitializer.Instance.CurShellTrans = null;
-
-            // 충돌한 경우에만 Pool
-            PoolManager.Instance.Push(gameObject);
+            ReleaseShell();
         }
+    }
+
+    protected void ReleaseShell()
+    {
+        // 카메라가 더이상 포탄을 안따라가도록
+        GameInitializer.Instance.CurShellTrans = null;
+
+        // 충돌한 경우에만 Pool
+        PoolManager.Instance.Push(gameObject);
     }
 
     protected void CreateExplosionParticle()
@@ -161,12 +180,6 @@ public class Shell : MonoBehaviour
 
         camShake.Shake(_shakeDurtaion, _shakeMagnitude);
     }
-
-    protected void LateUpdate()
-    {
-        // TODO : 포탄이 맵 범위 밖으로 나갔는지 확인후 나갔다면 포탄 삭제하기
-    }
-
     //private void DebugExplosionCircle(Vector2 position, float radius)
     //{
     //    GameObject debugCircle = new GameObject("ExplosionDebugCircle");

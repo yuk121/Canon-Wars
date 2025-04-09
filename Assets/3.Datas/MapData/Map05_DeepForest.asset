@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aefbc39327d7e1468d6e54b6d4eaac9, type: 3}
+  m_Name: Map05_DeepForest
+  m_EditorClassIdentifier: 
+  backgroundPrefab: {fileID: 6737891220465029019, guid: 73d8c603026f15c47995c62fc614f358, type: 3}
+  foregroundPrefab: {fileID: 6621850961787451848, guid: 8191de322ea531a419a716fe2df907f1, type: 3}
+  mapType: 4
+  mapSize: {x: 37.05, y: 40.2}

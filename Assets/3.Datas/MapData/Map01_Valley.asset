@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aefbc39327d7e1468d6e54b6d4eaac9, type: 3}
+  m_Name: Map01_Valley
+  m_EditorClassIdentifier: 
+  backgroundPrefab: {fileID: 4310982639271103201, guid: bd27e44a5ef44bb43be68d2050f3d15a, type: 3}
+  foregroundPrefab: {fileID: 849625363689414859, guid: 7c3531af022c8e34f9f008247f9d3baa, type: 3}
+  mapType: 0
+  mapSize: {x: 64, y: 31.2}

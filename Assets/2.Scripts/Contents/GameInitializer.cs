@@ -15,17 +15,21 @@ public class GameInitializer : MonoBehaviour
     }
     #endregion
 
+    private const float TURN_END_TERM = 3f;         // 턴 사이 시간
 
     [SerializeField] private MapSpawner _mapSpawner;
     [SerializeField] private List<GameObject> _tankPrefabList;
     [SerializeField] private eMapType _selectedMapType = eMapType.Random;
     [SerializeField] private int _playerCount = 0;
-    
+
+    private CameraController _camController = null;
     private List<PlayerController> _playerList = new List<PlayerController>();
 
     private int _curTurnPlayerIndex = 0;
     public PlayerController  CurTurnPlayer { get => _playerList[_curTurnPlayerIndex]; }
     public Transform CurShellTrans { get;  set; }
+
+    private bool _isTurnWait = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,6 +50,12 @@ public class GameInitializer : MonoBehaviour
 
         // 캐릭터 랜덤 스폰 좌표 배치
         PlayerRandomPosSpawn();
+
+        // 카메라 초기화
+        _camController = Camera.main.GetComponent<CameraController>();
+
+        if (_camController != null)
+            _camController.Init();
 
         // 랜덤 순서로 턴 시작
         _curTurnPlayerIndex = UnityEngine.Random.Range(0, _playerCount);
@@ -90,17 +100,37 @@ public class GameInitializer : MonoBehaviour
 
     public void PlayerTurnEnd()
     {
+        _isTurnWait = true;
+
+        StartCoroutine(StartNextPlayerTurn());
+    }
+
+    private IEnumerator StartNextPlayerTurn()
+    {
+        yield return new WaitForSeconds(TURN_END_TERM);
+
         // 턴 인덱스 증가
         int nextIndex = (_curTurnPlayerIndex + 1) % _playerCount;
         _curTurnPlayerIndex = nextIndex;
 
         Debug.Log($"Now Turn Player : {CurTurnPlayer.name}");
+
         // 다음 플레이어 턴 시작
         CurTurnPlayer.IsMyTurn();
+
+        _isTurnWait = false;
+    }
+
+    public bool IsCurPlayerTurnWait()
+    {
+        return _isTurnWait;
     }
 
     public Vector2 GetMapSize()
     {
+        if (_mapSpawner == null)
+            return Vector2.zero;
+
         return _mapSpawner.GetMapSize();
     }
 

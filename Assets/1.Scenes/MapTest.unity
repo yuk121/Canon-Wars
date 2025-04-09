@@ -149,18 +149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3fda8616706c24a9f95545fb7f7a90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapBackgroundList:
-  - {fileID: 4310982639271103201, guid: bd27e44a5ef44bb43be68d2050f3d15a, type: 3}
-  - {fileID: 6782360675606500565, guid: a9b8aceec3e4e1e4291837c8a1f588f9, type: 3}
-  - {fileID: 6737891220465029019, guid: 4bf4e4c546fb5da42b67ce4277a4fb15, type: 3}
-  - {fileID: 6737891220465029019, guid: ab814a69a335e9f45bea49a894e11585, type: 3}
-  - {fileID: 6737891220465029019, guid: 73d8c603026f15c47995c62fc614f358, type: 3}
-  _mapForegroundList:
-  - {fileID: 849625363689414859, guid: 7c3531af022c8e34f9f008247f9d3baa, type: 3}
-  - {fileID: 849625363689414859, guid: b8291bbc91fe7d74799fc613a7a18858, type: 3}
-  - {fileID: 6621850961787451848, guid: 7a1c7ae3d8f8ad441beb91b2a770e1ac, type: 3}
-  - {fileID: 6621850961787451848, guid: b77c128047ebf2349afff4845399eee5, type: 3}
-  - {fileID: 6621850961787451848, guid: 8191de322ea531a419a716fe2df907f1, type: 3}
+  _mapDataList:
+  - {fileID: 11400000, guid: c6e3a5a45b389f64186af1d8e644c3ae, type: 2}
+  - {fileID: 11400000, guid: f8926244e1447c24ba0add52dd4bc70d, type: 2}
+  - {fileID: 11400000, guid: e11aaeca7af5f1d4798e9fd2f062aec9, type: 2}
+  - {fileID: 11400000, guid: 329a19027400cad43b2671b1f6e93105, type: 2}
+  - {fileID: 11400000, guid: 109d6e0678866974d8abb602a779a23c, type: 2}
 --- !u!114 &413969505
 MonoBehaviour:
   m_ObjectHideFlags: 0

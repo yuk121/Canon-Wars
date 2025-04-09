@@ -59,8 +59,7 @@ public class ShellEllipse : Shell
                 }
             }
 
-            // 충돌한 경우에만 Pool
-            PoolManager.Instance.Push(gameObject);
+            ReleaseShell();
         }
     }
 }

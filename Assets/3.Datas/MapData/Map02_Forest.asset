@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aefbc39327d7e1468d6e54b6d4eaac9, type: 3}
+  m_Name: Map02_Forest
+  m_EditorClassIdentifier: 
+  backgroundPrefab: {fileID: 6782360675606500565, guid: a9b8aceec3e4e1e4291837c8a1f588f9, type: 3}
+  foregroundPrefab: {fileID: 849625363689414859, guid: b8291bbc91fe7d74799fc613a7a18858, type: 3}
+  mapType: 1
+  mapSize: {x: 53.75, y: 34}
