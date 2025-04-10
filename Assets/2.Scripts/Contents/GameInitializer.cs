@@ -59,6 +59,8 @@ public class GameInitializer : MonoBehaviour
 
         // 랜덤 순서로 턴 시작
         _curTurnPlayerIndex = UnityEngine.Random.Range(0, _playerCount);
+        
+        _camController.PlayerFocusing(CurTurnPlayer);
         CurTurnPlayer.IsMyTurn();
 
         if (pCallback != null)
@@ -116,6 +118,7 @@ public class GameInitializer : MonoBehaviour
         Debug.Log($"Now Turn Player : {CurTurnPlayer.name}");
 
         // 다음 플레이어 턴 시작
+        _camController.PlayerFocusing(CurTurnPlayer);
         CurTurnPlayer.IsMyTurn();
 
         _isTurnWait = false;

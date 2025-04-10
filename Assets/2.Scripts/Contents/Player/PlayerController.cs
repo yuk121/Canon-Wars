@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private float _curGauge = 0f;
     private float _prevShellPower = 0f;           // 이전에 쏜 파워 값
 
+    private bool _isGround = false;
     private bool _isDead = false;                   // 죽음 확인    
     private bool _isFire = false;
     private bool _bAfterDeadEvent = false;       // 죽음 이후 이벤트 한번만 실행하기 위한 bool
@@ -83,7 +84,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
         if(CheckDead() == true)
         {
             // 죽음 이후 메소드 한번 실행
@@ -95,6 +95,9 @@ public class PlayerController : MonoBehaviour
 
             return;
         }
+
+        // 땅에 있는지 확인 및 중력값 실시간 조정
+        _isGround = GroundCheckAndGravityUpdate();
 
         // 내 턴일 경우에만 움직임
         if (_isMyTurn == false)
@@ -184,7 +187,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 땅 위에 있는지 확인
-        if (IsGround())
+        if (_isGround)
         {
             _dirX = Input.GetAxis("Horizontal");
 
@@ -194,9 +197,6 @@ public class PlayerController : MonoBehaviour
 
             if (_dirX != 0f)
             {
-                // 땅에서는 중력 강하게
-                _rb2D.gravityScale = GRAVITY_SCALE_GROUND;
-
                 // 좌우 반전
                 Flip(_dirX);
 
@@ -206,9 +206,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // 공중에서 중력 원상태로
-            _rb2D.gravityScale = GRAVITY_SCALE_AERIAL;
-            
             // 공중일땐 수평 
             transform.rotation = Quaternion.Euler(0, 0, 0);
             HidePredictionsPoints();
@@ -224,6 +221,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool GroundCheckAndGravityUpdate()
+    {
+        if (IsGround())
+        {
+            if (_rb2D.gravityScale != GRAVITY_SCALE_GROUND)
+                _rb2D.gravityScale = GRAVITY_SCALE_GROUND;
+
+            return true;
+        }
+        else
+        {
+            if (_rb2D.gravityScale != GRAVITY_SCALE_AERIAL)
+                _rb2D.gravityScale = GRAVITY_SCALE_AERIAL;
+
+            transform.rotation = Quaternion.Euler(0, 0, 0); // 공중에서 회전 초기화
+            HidePredictionsPoints();
+
+            return false;
+        }
+    }
+
     public void Flip(float dirX)
     {
         Vector3 newScale = transform.localScale;
@@ -235,6 +253,7 @@ public class PlayerController : MonoBehaviour
     {
         _isMyTurn = true;
         _isCanFire = true;
+        _isFire = false;
     }
 
     private void EndTurn()
@@ -320,7 +339,6 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D rightHit = Physics2D.Raycast(ray2, direction, distance, LayerMask.GetMask("Ground"));
 
         //Linecast 
-        //RaycastHit2D area = Physics2D.Linecast(ray1 + direction * distance, ray2 + direction * distance, LayerMask.GetMask("Ground"));
         RaycastHit2D area = Physics2D.BoxCast(transform.position, new Vector2(_colider2D.radius * 2, _colider2D.radius * 2), 0f,direction, distance,LayerMask.GetMask("Ground"));
 
         Debug.DrawLine(ray1 + direction * distance, ray2 + direction * distance, Color.magenta);

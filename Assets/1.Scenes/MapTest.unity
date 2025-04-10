@@ -170,7 +170,7 @@ MonoBehaviour:
   _mapSpawner: {fileID: 413969504}
   _tankPrefabList:
   - {fileID: 739751645702610340, guid: 68be450ddd43b334192ae9c0cc5a4b33, type: 3}
-  _selectedMapType: -1
+  _selectedMapType: 0
   _playerCount: 2
 --- !u!4 &413969506
 Transform:
@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f2cd30c2b426e4a9849bd80c8f48a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camMoveSpeed: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
