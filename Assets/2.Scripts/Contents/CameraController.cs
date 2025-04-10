@@ -59,9 +59,9 @@ public class CameraController : MonoBehaviour
     {
         if(_isInit == true && GameInitializer.Instance != null)
         {
-  
+
             if (GameInitializer.Instance.CurShellTrans != null)
-            {     
+            {
                 // 포탄 포커싱
                 _curShellTrans = GameInitializer.Instance.CurShellTrans;
 
@@ -74,23 +74,10 @@ public class CameraController : MonoBehaviour
             }
             else
             {
-                if(IsMouseInsideGameView() ==true)
-                {
-                    // 포탄을 쏘기 전까지는 화면 움직임 가능
-                    MoveCameraAroundMap();
-                }
+                // 포탄을 쏘기 전까지는 화면 움직임 가능
+                MoveCameraAroundMap();
             }
         }
-
-    }
-
-    // 마우스가 게임씬 화면밖에 있어도 맵 이동이 동작하지 않도록
-    private bool IsMouseInsideGameView()
-    {
-        //Vector3 mousePos = Input.mousePosition;
-        //return mousePos.x >= 0 && mousePos.x <= Screen.width &&
-        //       mousePos.y >= 0 && mousePos.y <= Screen.height;
-        return true;
     }
 
     private void MoveCameraAroundMap()

@@ -15,4 +15,4 @@ MonoBehaviour:
   backgroundPrefab: {fileID: 6737891220465029019, guid: 4bf4e4c546fb5da42b67ce4277a4fb15, type: 3}
   foregroundPrefab: {fileID: 6621850961787451848, guid: 7a1c7ae3d8f8ad441beb91b2a770e1ac, type: 3}
   mapType: 2
-  mapSize: {x: 60, y: 28.45}
+  mapSize: {x: 60, y: 34.8}

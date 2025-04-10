@@ -170,8 +170,10 @@ MonoBehaviour:
   _mapSpawner: {fileID: 413969504}
   _tankPrefabList:
   - {fileID: 739751645702610340, guid: 68be450ddd43b334192ae9c0cc5a4b33, type: 3}
-  _selectedMapType: 0
+  _selectedMapType: 2
   _playerCount: 2
+  _windForceMax: 7
+  _curWindForce: 0
 --- !u!4 &413969506
 Transform:
   m_ObjectHideFlags: 0

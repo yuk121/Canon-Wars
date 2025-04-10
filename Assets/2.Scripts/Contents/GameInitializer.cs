@@ -10,26 +10,33 @@ public class GameInitializer : MonoBehaviour
     public static GameInitializer Instance;
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
     }
     #endregion
 
     private const float TURN_END_TERM = 3f;         // 턴 사이 시간
 
+    [Header("Info")]
     [SerializeField] private MapSpawner _mapSpawner;
     [SerializeField] private List<GameObject> _tankPrefabList;
     [SerializeField] private eMapType _selectedMapType = eMapType.Random;
     [SerializeField] private int _playerCount = 0;
 
+    [Header("Environment")]
+    [Range(0f,10f)]
+    [SerializeField] private float _windForceMax = 0f;
+    [SerializeField] private float _curWindForce = 0f;
+
     private CameraController _camController = null;
     private List<PlayerController> _playerList = new List<PlayerController>();
 
     private int _curTurnPlayerIndex = 0;
-    public PlayerController  CurTurnPlayer { get => _playerList[_curTurnPlayerIndex]; }
-    public Transform CurShellTrans { get;  set; }
+    public PlayerController CurTurnPlayer { get => _playerList[_curTurnPlayerIndex]; }
+    public Transform CurShellTrans { get; set; }
 
     private bool _isTurnWait = false;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,7 +49,7 @@ public class GameInitializer : MonoBehaviour
         // 선택한 맵 생성
         _mapSpawner.SpawnSelectMap(_selectedMapType);
 
-        if(_playerCount == 0)
+        if (_playerCount == 0)
         {
             Debug.Log("No Player");
             return;
@@ -59,9 +66,14 @@ public class GameInitializer : MonoBehaviour
 
         // 랜덤 순서로 턴 시작
         _curTurnPlayerIndex = UnityEngine.Random.Range(0, _playerCount);
-        
+
+        Debug.Log($"First Turn Player : {CurTurnPlayer.name}");
+
         _camController.PlayerFocusing(CurTurnPlayer);
         CurTurnPlayer.IsMyTurn();
+
+        // 바람 설정
+        RandomWindForce();
 
         if (pCallback != null)
             pCallback.Invoke();
@@ -93,7 +105,7 @@ public class GameInitializer : MonoBehaviour
                 player.Flip(-1);
             }
 
-            _playerList.Add(player);    
+            _playerList.Add(player);
 
             // 뽑힌 자리는 랜덤 좌표 목록에서 제거
             posList.RemoveAt(randPosIndex);
@@ -109,13 +121,21 @@ public class GameInitializer : MonoBehaviour
 
     private IEnumerator StartNextPlayerTurn()
     {
-        yield return new WaitForSeconds(TURN_END_TERM);
-
         // 턴 인덱스 증가
         int nextIndex = (_curTurnPlayerIndex + 1) % _playerCount;
         _curTurnPlayerIndex = nextIndex;
 
         Debug.Log($"Now Turn Player : {CurTurnPlayer.name}");
+
+        // 현재 탄이 안터졌다면 대기
+        while (CurShellTrans != null)
+            yield return null;
+
+        // 터지고나서 대기시간
+        yield return new WaitForSeconds(TURN_END_TERM);
+
+        // 바람 설정
+        RandomWindForce();
 
         // 다음 플레이어 턴 시작
         _camController.PlayerFocusing(CurTurnPlayer);
@@ -123,6 +143,18 @@ public class GameInitializer : MonoBehaviour
 
         _isTurnWait = false;
     }
+
+    private void RandomWindForce()
+    {
+        // 반올림 후 소수점 둘째자리까지만
+        _curWindForce = Mathf.Round(UnityEngine.Random.Range(-_windForceMax, _windForceMax) * 100f) / 100f;
+    }
+
+    public float GetWindForce()
+    {
+        return _curWindForce;
+    }
+
 
     public bool IsCurPlayerTurnWait()
     {

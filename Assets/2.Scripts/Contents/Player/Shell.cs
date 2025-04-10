@@ -26,6 +26,7 @@ public class Shell : MonoBehaviour
 
     private float _endTime = 0f;
     private float _power = 1f;
+    private float _curWindForce = 0f;
     private bool _isFire = false;
 
     public void Init()
@@ -40,11 +41,12 @@ public class Shell : MonoBehaviour
     {
         if (_isFire)
         {
-            _isFire = false;
-            Vector2 fireDir = transform.right * Mathf.Sign(transform.localScale.x);
-            _rb2D.AddForce(fireDir * _power, ForceMode2D.Impulse);
-        }
+            if (GameInitializer.Instance != null)
+                _curWindForce = GameInitializer.Instance.GetWindForce();
 
+            _rb2D.AddForce(new Vector2(_curWindForce, 0f)); // 지속적으로 바람 영향
+        }        
+       
         float angle = Mathf.Atan2(_rb2D.linearVelocity.y, _rb2D.linearVelocity.x) * Mathf.Rad2Deg;
         
         // 탱크가 좌측을 바라볼 때 180도 추가
@@ -97,6 +99,10 @@ public class Shell : MonoBehaviour
     {
         _power = power;
         _isFire = true;
+
+        // 발사
+        Vector2 fireDir = transform.right * Mathf.Sign(transform.localScale.x);
+        _rb2D.AddForce(fireDir * _power, ForceMode2D.Impulse);
     }
 
     public virtual void CheckExplosion()
