@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private const float DEAD_HEIGHT = -16f;  //  죽는 높이
+    private const float DEAD_HEIGHT = -20f;  //  죽는 높이
     private const float GRAVITY_SCALE_GROUND = 10f;
     private const float GRAVITY_SCALE_AERIAL = 1f;
 
@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
     [Header("Prediction Point")]
     [SerializeField] private GameObject _predictionPointPrefab = null;
     [SerializeField] private int _predictionPointNum = 20;                      // 예측 지점 수
+
+    [Header("Sprite")]
+    [SerializeField] private SpriteRenderer _srBody = null;
+    [SerializeField] private SpriteRenderer _srWheel = null;
+    [SerializeField] private SpriteRenderer _srAritllery = null;
 
     private Rigidbody2D _rb2D = null;               // Tank RigidBody 2D
     private CircleCollider2D _colider2D = null;     // Tank CircleCollider 2D
@@ -238,6 +243,10 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0); // 공중에서 회전 초기화
             HidePredictionsPoints();
 
+            // 떨어질때는 카메라 포커싱 
+            if (GameInitializer.Instance != null)
+                GameInitializer.Instance.PlayerCameraFocusing(this);
+
             return false;
         }
     }
@@ -435,5 +444,12 @@ public class PlayerController : MonoBehaviour
         pos = (Vector2)_shellFireTrans.position + initialVelocity * time + Physics2D.gravity * (time * time) * 0.5f;
         
         return pos;
+    }
+
+    public void ChangeSpriteOrder(int value)
+    {
+        _srBody.sortingOrder += value;
+        _srWheel.sortingOrder += value; 
+        _srAritllery.sortingOrder += value;
     }
 }

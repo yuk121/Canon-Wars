@@ -69,7 +69,8 @@ public class GameInitializer : MonoBehaviour
 
         Debug.Log($"First Turn Player : {CurTurnPlayer.name}");
 
-        _camController.PlayerFocusing(CurTurnPlayer);
+        // 플레이어 카메라 포커싱
+        PlayerCameraFocusing(CurTurnPlayer);
         CurTurnPlayer.IsMyTurn();
 
         // 바람 설정
@@ -84,6 +85,8 @@ public class GameInitializer : MonoBehaviour
     {
         List<Vector3> posList = _mapSpawner.GetSpawnPosPList();
         int randPosIndex = 0;
+        int addSortOrder = 2;
+        int sortOrderValue = 0;
 
         // 플레이어의 수만큼 랜덤 좌표에 생성
         for (int i = 0; i < _playerCount; i++)
@@ -98,6 +101,7 @@ public class GameInitializer : MonoBehaviour
             // 플레이어 초기화
             PlayerController player = go.GetComponent<PlayerController>();
             player.Init();
+            player.ChangeSpriteOrder(sortOrderValue);
 
             // x좌표가 0보다 큰 경우 우측을 바라보도록
             if (player.transform.position.x > 0)
@@ -109,6 +113,9 @@ public class GameInitializer : MonoBehaviour
 
             // 뽑힌 자리는 랜덤 좌표 목록에서 제거
             posList.RemoveAt(randPosIndex);
+
+            // Sort Order값 증가
+            sortOrderValue += addSortOrder;
         }
     }
 
@@ -167,6 +174,11 @@ public class GameInitializer : MonoBehaviour
             return Vector2.zero;
 
         return _mapSpawner.GetMapSize();
+    }
+
+    public void PlayerCameraFocusing(PlayerController playerController)
+    {
+        _camController.PlayerFocusing(playerController);
     }
 
     //#region Ground Top Pos Find Method

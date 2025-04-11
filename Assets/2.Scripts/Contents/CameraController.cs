@@ -10,7 +10,8 @@ public class CameraController : MonoBehaviour
     [Range(10f, 15f)]
     [SerializeField] private float _camMaxSize = 0f;
     [SerializeField] private float _camZoomOutTime = 2f;
-    
+
+    private Camera _camera;
     private Transform _trans;
     private Transform _curShellTrans;
 
@@ -38,11 +39,12 @@ public class CameraController : MonoBehaviour
 
     public void Init()
     {
+        _camera = GetComponent<Camera>();
         _trans = transform;
 
         // 원래 카메라 크기 저장
-        _camSizeOriginHeight = Camera.main.orthographicSize;
-        _camSizeOriginWidth = _camSizeOriginHeight * Camera.main.aspect;
+        _camSizeOriginHeight = _camera.orthographicSize;
+        _camSizeOriginWidth = _camSizeOriginHeight * _camera.aspect;
 
         // 맵 정보 불러오기
         MapSizeCheck();
@@ -69,7 +71,10 @@ public class CameraController : MonoBehaviour
     // 원래 카메라 사이즈로 복구
     private void RestoreCamSize()
     {
+        _zoomTime = 0f;
         Camera.main.orthographicSize = _camSizeOriginHeight;
+
+        MapSizeCheck();
     }
 
     // Update is called once per frame
@@ -80,6 +85,7 @@ public class CameraController : MonoBehaviour
         {
             if (GameInitializer.Instance.CurShellTrans != null)
             {
+                CameraZoomOut();
                 // 포탄 포커싱
                 _curShellTrans = GameInitializer.Instance.CurShellTrans;
 
@@ -98,11 +104,25 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    // 점진적으로 카메라 줌아웃 하는 메소드
     private void CameraZoomOut()
     {
-        _zoomTime += Time.deltaTime; 
-        Camera.main.orthographicSize = Mathf.Lerp(_camSizeOriginHeight, _camMaxSize, _zoomTime / _camZoomOutTime);
-        
+        float mapMaxCamSize = _mapSize.x / _camera.aspect;
+        float camMaxSize = Mathf.Min(_camMaxSize, mapMaxCamSize);
+
+        if (_zoomTime < _camZoomOutTime)
+        {
+            _zoomTime += Time.deltaTime;
+           
+            float progress = _zoomTime / _camZoomOutTime;
+
+            _camera.orthographicSize = Mathf.Lerp(_camSizeOriginHeight, camMaxSize, progress * progress);
+        }
+        else
+        {
+            _camera.orthographicSize = camMaxSize;
+        }
+
         MapSizeCheck();
     }
 
@@ -147,8 +167,8 @@ public class CameraController : MonoBehaviour
         if (_mapSize == Vector2.zero)
             return;
 
-        _camSizeHegiht = Camera.main.orthographicSize;
-        _camSizeWidth = _camSizeHegiht * Camera.main.aspect;
+        _camSizeHegiht = _camera.orthographicSize;
+        _camSizeWidth = _camSizeHegiht * _camera.aspect;
 
         _mapBottomLeft = new Vector2(-_mapSize.x + _camSizeWidth, -_mapSize.y+ _camSizeHegiht);
         _mapTopRight = new Vector2(_mapSize.x - _camSizeWidth, _mapSize.y - _camSizeHegiht);

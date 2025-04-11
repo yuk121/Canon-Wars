@@ -127,6 +127,9 @@ MonoBehaviour:
   _powerGaugeSpeed: 1
   _predictionPointPrefab: {fileID: 7947759691570865234, guid: 7cde018ebc819d74ca1c4dc47b2b2b30, type: 3}
   _predictionPointNum: 10
+  _srBody: {fileID: 4989927179726028549}
+  _srWheel: {fileID: 4988939844198629521}
+  _srAritllery: {fileID: 8695886562000290391}
 --- !u!1 &3762474273888376756
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +206,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 35
+  m_SortingOrder: 2
   m_Sprite: {fileID: 2400837359360407519, guid: dfacefe132a1bc1409be22fc3664228b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -322,7 +325,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 40
+  m_SortingOrder: 3
   m_Sprite: {fileID: 853044492611496859, guid: dfacefe132a1bc1409be22fc3664228b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -409,7 +412,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 2
   m_Sprite: {fileID: -554140525140292038, guid: dfacefe132a1bc1409be22fc3664228b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
