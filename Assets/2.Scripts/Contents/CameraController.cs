@@ -1,24 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     private const float EDGE_THRESHOLD = 5f;
     [SerializeField] private float _camMoveSpeed = 5f;
+
+    [Range(10f, 15f)]
+    [SerializeField] private float _camMaxSize = 0f;
+    [SerializeField] private float _camZoomOutTime = 2f;
+    
     private Transform _trans;
-    private Transform _curTunrPlayerTrans;
     private Transform _curShellTrans;
 
     private Vector2 _mapSize = Vector2.zero;
     private Vector2 _mapBottomLeft = Vector2.zero;
     private Vector2 _mapTopRight = Vector2.zero;
 
-    private Vector3 _prevMousePos = Vector2.zero;
+    private float _camSizeOriginWidth = 0f;
+    private float _camSizeOriginHeight = 0f;
 
     private float _camSizeWidth;
     private float _camSizeHegiht;
     private float _newPosX = 0f;
     private float _newPosY = 0f;
 
+    private float _zoomTime = 0f;
     private bool _isInit = false;
 
 
@@ -31,8 +39,10 @@ public class CameraController : MonoBehaviour
     public void Init()
     {
         _trans = transform;
-        _camSizeHegiht = Camera.main.orthographicSize;
-        _camSizeWidth = _camSizeHegiht * Camera.main.aspect;
+
+        // 원래 카메라 크기 저장
+        _camSizeOriginHeight = Camera.main.orthographicSize;
+        _camSizeOriginWidth = _camSizeOriginHeight * Camera.main.aspect;
 
         // 맵 정보 불러오기
         MapSizeCheck();
@@ -45,6 +55,8 @@ public class CameraController : MonoBehaviour
         if (curPlayer == null)
             return;
 
+        RestoreCamSize();
+
         // 플레이어 포커싱
         _newPosX = Mathf.Clamp(curPlayer.transform.position.x, _mapBottomLeft.x, _mapTopRight.x);
         _newPosY = Mathf.Clamp(curPlayer.transform.position.y, _mapBottomLeft.y, _mapTopRight.y);
@@ -54,12 +66,18 @@ public class CameraController : MonoBehaviour
         _trans.position = newPos;
     }
 
+    // 원래 카메라 사이즈로 복구
+    private void RestoreCamSize()
+    {
+        Camera.main.orthographicSize = _camSizeOriginHeight;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(_isInit == true && GameInitializer.Instance != null)
-        {
 
+        if (_isInit == true && GameInitializer.Instance != null)
+        {
             if (GameInitializer.Instance.CurShellTrans != null)
             {
                 // 포탄 포커싱
@@ -78,6 +96,14 @@ public class CameraController : MonoBehaviour
                 MoveCameraAroundMap();
             }
         }
+    }
+
+    private void CameraZoomOut()
+    {
+        _zoomTime += Time.deltaTime; 
+        Camera.main.orthographicSize = Mathf.Lerp(_camSizeOriginHeight, _camMaxSize, _zoomTime / _camZoomOutTime);
+        
+        MapSizeCheck();
     }
 
     private void MoveCameraAroundMap()
@@ -120,6 +146,9 @@ public class CameraController : MonoBehaviour
         // 맵 사이즈가 존재하지 않는 경우
         if (_mapSize == Vector2.zero)
             return;
+
+        _camSizeHegiht = Camera.main.orthographicSize;
+        _camSizeWidth = _camSizeHegiht * Camera.main.aspect;
 
         _mapBottomLeft = new Vector2(-_mapSize.x + _camSizeWidth, -_mapSize.y+ _camSizeHegiht);
         _mapTopRight = new Vector2(_mapSize.x - _camSizeWidth, _mapSize.y - _camSizeHegiht);
